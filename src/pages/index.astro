@@ -1,172 +1,138 @@
 ---
-import Header from '../components/Header.astro';
 import MainLayout from '../layouts/MainLayout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Footer from '../components/Footer.astro';
+import { services } from '../data/services';
 
-const services = [
-  {
-    number: '01',
-    title: 'الشيبورد',
-    description: 'تصاميم جدارية عصرية بتشطيبات متنوعة.',
-  },
-  {
-    number: '02',
-    title: 'باركيه الأرضيات',
-    description: 'أرضيات أنيقة تتناسب مع مختلف المساحات.',
-  },
-  {
-    number: '03',
-    title: 'نعلات الفايبر',
-    description: 'تفاصيل تشطيب دقيقة تمنح المكان مظهرًا متكاملًا.',
-  },
-  {
-    number: '04',
-    title: 'براويز الفوم (البانوهات)',
-    description: 'لمسات جدارية كلاسيكية وعصرية حسب الطلب.',
-  },
-  {
-    number: '05',
-    title: 'الدهانات والديكورات',
-    description: 'دهانات عادية وديكورية بألوان وتشطيبات متنوعة.',
-  },
-];
-
-const whatsapp =
+const whatsappUrl = (service: string) =>
   'https://wa.me/966533340982?text=' +
   encodeURIComponent(
-    'السلام عليكم، شاهدت موقع أركان الرياض وأرغب في الاستفسار عن خدمات الديكور.'
+    `السلام عليكم، أرغب في الاستفسار عن خدمة ${service} لدى أركان الرياض.`
   );
 ---
 
-<MainLayout title="أركان الرياض | التصميم الداخلي والديكور بالرياض">
-  <header class="border-b border-wood/10 bg-ivory">
-    <nav class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-5">
-      <a href="/" class="flex flex-col">
-        <span class="text-xl font-extrabold text-wood">
-          أركان الرياض
-        </span>
-        <span class="text-[11px] text-charcoal/70">
-          للتصميم الداخلي والاستشارات
-        </span>
-      </a>
-
-      <a
-        href={whatsapp}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="rounded-full bg-wood px-5 py-3 text-sm font-bold text-white transition hover:bg-charcoal"
-      >
-        تواصل معنا
-      </a>
-    </nav>
-  </header>
+<MainLayout
+  title="أركان الرياض | التصميم الداخلي والديكور بالرياض"
+  description="أركان الرياض للتصميم الداخلي والاستشارات. خبرة 12 عامًا في الشيبورد والباركيه والبانوهات ونعلات الفايبر والدهانات. تنفيذ بالرياض وتوريد لجميع مناطق المملكة."
+>
+  <Header />
 
   <main>
-    <section class="mx-auto grid min-h-[65vh] max-w-7xl items-center gap-10 px-5 py-16 lg:grid-cols-2 lg:py-24">
-      <div>
-        <p class="mb-5 font-bold text-wood">
-          خبرة 12 عامًا في عالم الديكور
-        </p>
+    <Hero />
 
-        <h1 class="mb-6 text-4xl leading-relaxed font-extrabold text-charcoal md:text-5xl">
-          مساحات أنيقة
-          <span class="text-wood">بتفاصيل تصنع الفرق</span>
-        </h1>
-
-        <p class="mb-9 max-w-xl leading-9 text-charcoal/75">
-          نقدم خدمات التصميم والتنفيذ والتركيب للديكورات الداخلية
-          في الرياض، بما يشمل الشيبورد والباركيه ونعلات الفايبر
-          والبراويز والدهانات، مع توريد المواد لجميع محافظات المملكة.
-        </p>
-
-        <div class="flex flex-wrap gap-3">
-          <a
-            href={whatsapp}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="rounded-full bg-wood px-7 py-4 font-bold text-white transition hover:bg-charcoal"
-          >
-            استفسر عبر واتساب
-          </a>
-
-          <a
-            href="#services"
-            class="rounded-full border border-wood px-7 py-4 font-bold text-wood transition hover:bg-wood hover:text-white"
-          >
-            استعرض خدماتنا
-          </a>
-        </div>
-      </div>
-
-      <div class="flex min-h-80 items-center justify-center rounded-3xl border border-gold/30 bg-white/60 p-8 text-center shadow-sm">
-        <div>
-          <p class="mb-3 text-6xl font-extrabold text-wood">12</p>
-          <p class="text-xl font-bold">عامًا من الخبرة</p>
-          <p class="mt-3 text-sm text-charcoal/60">
-            هنا ستظهر صورة الديكور الرئيسية
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section id="services" class="bg-white py-20">
+    <section id="services" class="scroll-mt-24 bg-white py-20">
       <div class="mx-auto max-w-7xl px-5">
-        <div class="mb-10 text-center">
-          <p class="mb-3 font-semibold text-wood">
-            خدماتنا
-          </p>
-          <h2 class="text-3xl font-extrabold">
-            حلول متكاملة للديكور الداخلي
+        <div class="mb-12 text-center">
+          <p class="mb-3 font-bold text-wood">خدماتنا</p>
+
+          <h2 class="text-3xl font-extrabold text-charcoal md:text-4xl">
+            حلول ديكور تناسب ذوقك
           </h2>
+
+          <p class="mx-auto mt-5 max-w-2xl leading-8 text-charcoal/65">
+            اكتشف خدماتنا المتنوعة في تصميم وتنفيذ وتركيب
+            الديكورات والتشطيبات الداخلية.
+          </p>
         </div>
 
-        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service) => (
-            <article class="rounded-2xl border border-wood/10 bg-ivory p-7 transition hover:shadow-lg">
-              <span class="text-sm font-extrabold text-wood">
-                {service.number}
-              </span>
+            <article
+              class="group flex flex-col overflow-hidden rounded-3xl border border-wood/10 bg-ivory transition hover:-translate-y-1 hover:shadow-xl"
+            >
+              <div
+                class="flex h-48 items-center justify-center bg-gradient-to-br from-[#D9C5A8] to-[#F4EEE4]"
+                aria-hidden="true"
+              >
+                <span class="text-6xl font-extrabold text-wood/30">
+                  {service.id === 'painting' ? '05' :
+                   service.id === 'foam-mouldings' ? '04' :
+                   service.id === 'fiber-skirting' ? '03' :
+                   service.id === 'parquet' ? '02' : '01'}
+                </span>
+              </div>
 
-              <h3 class="mt-5 mb-3 text-xl font-bold">
-                {service.title}
-              </h3>
+              <div class="flex flex-1 flex-col p-7">
+                <p class="mb-2 text-xs font-bold text-wood">
+                  {service.shortDescription}
+                </p>
 
-              <p class="leading-8 text-charcoal/70">
-                {service.description}
-              </p>
+                <h3 class="mb-4 text-xl font-extrabold text-charcoal">
+                  {service.title}
+                </h3>
+
+                <p class="mb-7 flex-1 leading-8 text-charcoal/70">
+                  {service.description}
+                </p>
+
+                <a
+                  href={whatsappUrl(service.title)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`الاستفسار عن خدمة ${service.title} عبر واتساب`}
+                  class="inline-flex w-fit items-center gap-2 border-b border-wood pb-1 font-bold text-wood hover:text-charcoal"
+                >
+                  استفسر عن الخدمة
+                  <span aria-hidden="true">←</span>
+                </a>
+              </div>
             </article>
           ))}
         </div>
       </div>
     </section>
 
-    <section class="mx-auto max-w-7xl px-5 py-20 text-center">
-      <h2 class="mb-4 text-3xl font-extrabold">
-        هل لديك تصميم ترغب في تنفيذه؟
-      </h2>
+    <section class="bg-ivory py-20">
+      <div class="mx-auto max-w-7xl px-5 text-center">
+        <p class="mb-3 font-bold text-wood">تصاميم حسب الطلب</p>
 
-      <p class="mb-8 text-charcoal/70">
-        تواصل معنا لمناقشة احتياجاتك. المعاينة والقياسات بالاتفاق.
-      </p>
+        <h2 class="mb-6 text-3xl font-extrabold">
+          لكل مساحة طابعها الخاص
+        </h2>
 
-      <a
-        href={whatsapp}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-block rounded-full bg-wood px-8 py-4 font-bold text-white transition hover:bg-charcoal"
-      >
-        تواصل عبر واتساب
-      </a>
+        <p class="mx-auto max-w-3xl leading-9 text-charcoal/70">
+          نعمل على تنفيذ التصاميم بما يتناسب مع المساحة
+          والذوق والخامات المناسبة. وستُعرض هنا نماذج
+          مرجعية مرخّصة لأفكار الديكور والتشطيبات،
+          وليست بالضرورة مشاريع منفذة من قبلنا.
+        </p>
+      </div>
+    </section>
+
+    <section id="contact" class="scroll-mt-24 bg-white py-20">
+      <div class="mx-auto max-w-4xl px-5 text-center">
+        <p class="mb-3 font-bold text-wood">تواصل معنا</p>
+
+        <h2 class="mb-6 text-3xl font-extrabold text-charcoal">
+          هل لديك فكرة ترغب في تنفيذها؟
+        </h2>
+
+        <p class="mb-9 leading-9 text-charcoal/70">
+          تواصل معنا لمناقشة احتياجاتك في التصميم
+          أو التركيب أو التوريد. المعاينة بالاتفاق.
+        </p>
+
+        <div class="flex flex-wrap justify-center gap-4">
+          <a
+            href={whatsappUrl('الديكور الداخلي')}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="rounded-full bg-wood px-8 py-4 font-bold text-white transition hover:bg-charcoal"
+          >
+            تواصل عبر واتساب
+          </a>
+
+          <a
+            href="tel:+966533340982"
+            class="rounded-full border border-wood px-8 py-4 font-bold text-wood transition hover:bg-wood hover:text-white"
+          >
+            اتصل الآن
+          </a>
+        </div>
+      </div>
     </section>
   </main>
 
-  <footer class="bg-charcoal px-5 py-10 text-center text-white">
-    <p class="font-bold">أركان الرياض للتصميم الداخلي والاستشارات</p>
-    <p class="mt-3 text-sm text-white/70">
-      التصميم والتنفيذ والتركيب في الرياض | التوريد لجميع محافظات المملكة
-    </p>
-
-    <a href="tel:+966533340982" class="mt-4 inline-block text-gold">
-      +966 53 334 0982
-    </a>
-  </footer>
+  <Footer />
 </MainLayout>
