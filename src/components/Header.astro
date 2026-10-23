@@ -1,0 +1,17 @@
+---
+import { site, contactLink, callLink } from '../data/site';
+const whatsapp = contactLink();
+---
+<header class="sticky top-0 z-50 border-b border-wood/10 bg-ivory/95 backdrop-blur-md">
+<nav class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-5 py-4" aria-label="القائمة الرئيسية">
+  <a href="/" class="flex flex-col" aria-label="أركان الرياض - الرئيسية"><span class="text-xl font-extrabold text-wood">{site.name}</span><span class="text-[10px] text-charcoal/70">{site.subtitle}</span></a>
+  <div class="hidden items-center gap-6 text-sm font-bold lg:flex"><a href="/" class="hover:text-wood">الرئيسية</a><a href="/#services" class="hover:text-wood">خدماتنا</a><a href="/#designs" class="hover:text-wood">نماذج التصاميم</a><a href="/#contact" class="hover:text-wood">تواصل معنا</a></div>
+  <div class="flex items-center gap-2"><a href={callLink} class="hidden rounded-full border border-wood px-4 py-2 text-sm font-bold text-wood sm:inline-flex">اتصل الآن</a><a href={whatsapp} target="_blank" rel="noopener noreferrer" class="rounded-full bg-wood px-4 py-2 text-sm font-bold text-white hover:bg-charcoal">واتساب</a></div>
+  <details class="relative lg:hidden">
+    <summary class="cursor-pointer rounded-full border border-wood/30 px-3 py-2 text-sm font-bold text-wood">القائمة</summary>
+    <div class="absolute left-0 top-full mt-2 flex min-w-40 flex-col gap-3 rounded-xl border border-wood/10 bg-white p-4 text-sm font-bold shadow-xl">
+      <a href="/">الرئيسية</a><a href="/#services">الخدمات</a><a href="/#designs">التصاميم</a><a href="/#contact">التواصل</a>
+    </div>
+  </details>
+</nav>
+</header>

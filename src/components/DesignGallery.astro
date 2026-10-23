@@ -15,7 +15,7 @@ import { gallery, galleryCategories } from '../data/gallery';
       {gallery.map((item) => (
         <figure data-category={item.category} class="gallery-item overflow-hidden rounded-3xl bg-white shadow-sm">
           <button type="button" data-image={item.src} data-alt={item.alt} class="gallery-open block w-full cursor-zoom-in text-right" aria-label={`تكبير صورة: ${item.title}`}>
-            <img src={item.src} alt={item.alt} loading="lazy" decoding="async" width="1000" height="750" class="aspect-[4/3] w-full object-cover transition duration-300 hover:scale-[1.03]" />
+            <img onerror="this.onerror=null;this.src='/images/painting-reference.svg'" src={item.src} alt={item.alt} loading="lazy" decoding="async" width="1000" height="750" class="aspect-[4/3] w-full object-cover transition duration-300 hover:scale-[1.03]" />
           </button>
           <figcaption class="px-5 py-4 font-bold text-charcoal">{item.title}</figcaption>
         </figure>

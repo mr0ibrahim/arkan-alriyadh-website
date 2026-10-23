@@ -1,12 +1,14 @@
 ---
+import { contactLink, callLink } from '../data/site';
 import MainLayout from '../layouts/MainLayout.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import Footer from '../components/Footer.astro';
+import FloatingContact from '../components/FloatingContact.astro';
 import DesignGallery from '../components/DesignGallery.astro';
 import { services } from '../data/services';
 import { gallery } from '../data/gallery';
-const whatsappUrl = (service: string) => 'https://wa.me/966533340982?text=' + encodeURIComponent(`السلام عليكم، أرغب في الاستفسار عن خدمة ${service} لدى أركان الرياض.`);
+const whatsappUrl = (service: string) => contactLink(service);
 ---
 <MainLayout title="أركان الرياض | ديكور داخلي وشيبورد وباركيه ودهانات بالرياض" description="أركان الرياض للتصميم الداخلي والاستشارات؛ 12 عامًا من الخبرة في الشيبورد والباركيه والبـانوهات ونعلات الفايبر والدهانات في الرياض، مع توريد المواد لجميع مناطق المملكة.">
   <Header />
@@ -20,11 +22,12 @@ const whatsappUrl = (service: string) => 'https://wa.me/966533340982?text=' + en
             const preview = gallery.find(image => image.category === service.id);
             return (
               <article class="group flex flex-col overflow-hidden rounded-3xl border border-wood/10 bg-ivory transition hover:-translate-y-1 hover:shadow-xl">
-                {preview ? <img src={preview.src} alt={preview.alt} width="1000" height="750" loading="lazy" decoding="async" class="aspect-[4/3] w-full object-cover" /> : <div class="aspect-[4/3] bg-gold/20" />}
+                {preview ? <img onerror="this.onerror=null;this.src='/images/painting-reference.svg'" src={preview.src} alt={preview.alt} width="1000" height="750" loading="lazy" decoding="async" class="aspect-[4/3] w-full object-cover" /> : <div class="aspect-[4/3] bg-gold/20" />}
                 <div class="flex flex-1 flex-col p-6">
                   <p class="mb-2 text-xs font-bold text-wood">{service.shortDescription}</p>
-                  <h3 class="mb-3 text-xl font-extrabold text-charcoal">{service.title}</h3>
-                  <p class="mb-6 flex-1 leading-8 text-charcoal/70">{service.description}</p>
+                  <h3 class="mb-3 text-xl font-extrabold text-charcoal"><a href={`/services/${service.id}/`} class="hover:text-wood focus-visible:underline">{service.title}</a></h3>
+                  <p class="mb-5 flex-1 leading-8 text-charcoal/70">{service.description}</p>
+                  <a href={`/services/${service.id}/`} class="mb-4 w-fit text-sm font-extrabold text-wood underline underline-offset-4">شاهد التفاصيل ونماذج التصاميم ←</a>
                   <a href={whatsappUrl(service.title)} target="_blank" rel="noopener noreferrer" class="w-fit border-b border-wood pb-1 font-bold text-wood hover:text-charcoal">استفسر عن الخدمة ←</a>
                 </div>
               </article>
@@ -35,7 +38,8 @@ const whatsappUrl = (service: string) => 'https://wa.me/966533340982?text=' + en
     </section>
     <DesignGallery />
     <section class="bg-white py-16"><div class="mx-auto max-w-7xl px-5 text-center"><p class="mb-3 font-bold text-wood">نطاق خدماتنا</p><h2 class="mb-4 text-3xl font-extrabold">التركيب في الرياض، والتوريد لجميع محافظات المملكة</h2><p class="leading-8 text-charcoal/70">نوفر التصميم والتنفيذ والتركيب داخل الرياض، وتوريد مواد الخدمات الخمس إلى بقية المملكة. المعاينة والمقاسات بالاتفاق مع العميل.</p></div></section>
-    <section id="contact" class="scroll-mt-24 bg-ivory py-20"><div class="mx-auto max-w-4xl px-5 text-center"><p class="mb-3 font-bold text-wood">تواصل معنا</p><h2 class="mb-6 text-3xl font-extrabold">هل لديك تصميم ترغب في تنفيذه؟</h2><p class="mb-8 leading-8 text-charcoal/70">تواصل معنا الآن لاستعراض الخيارات المناسبة للخامات والتشطيبات حسب رغبتك.</p><div class="flex flex-wrap justify-center gap-3"><a href={whatsappUrl('الديكور الداخلي')} target="_blank" rel="noopener noreferrer" class="rounded-full bg-wood px-8 py-4 font-bold text-white hover:bg-charcoal">تواصل عبر واتساب</a><a href="tel:+966533340982" class="rounded-full border border-wood px-8 py-4 font-bold text-wood hover:bg-wood hover:text-white">اتصل الآن</a></div></div></section>
+    <section id="contact" class="scroll-mt-24 bg-ivory py-20"><div class="mx-auto max-w-4xl px-5 text-center"><p class="mb-3 font-bold text-wood">تواصل معنا</p><h2 class="mb-6 text-3xl font-extrabold">هل لديك تصميم ترغب في تنفيذه؟</h2><p class="mb-8 leading-8 text-charcoal/70">تواصل معنا الآن لاستعراض الخيارات المناسبة للخامات والتشطيبات حسب رغبتك.</p><div class="flex flex-wrap justify-center gap-3"><a href={whatsappUrl('الديكور الداخلي')} target="_blank" rel="noopener noreferrer" class="rounded-full bg-wood px-8 py-4 font-bold text-white hover:bg-charcoal">تواصل عبر واتساب</a><a href={callLink} class="rounded-full border border-wood px-8 py-4 font-bold text-wood hover:bg-wood hover:text-white">اتصل الآن</a></div></div></section>
   </main>
   <Footer />
+  <FloatingContact />
 </MainLayout>

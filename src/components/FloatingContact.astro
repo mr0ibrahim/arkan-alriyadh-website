@@ -1,0 +1,8 @@
+---
+import { contactLink, callLink } from '../data/site';
+const message = contactLink();
+---
+<aside class="fixed bottom-5 left-5 z-40 flex flex-col gap-2" aria-label="تواصل سريع">
+<a href={message} target="_blank" rel="noopener noreferrer" class="rounded-full bg-[#087E48] px-5 py-3 text-sm font-extrabold text-white shadow-lg focus-visible:outline-4" aria-label="فتح واتساب للتواصل">واتساب</a>
+<a href={callLink} class="rounded-full bg-white px-5 py-3 text-center text-sm font-extrabold text-charcoal shadow-lg" aria-label="الاتصال الهاتفي">اتصال</a>
+</aside>

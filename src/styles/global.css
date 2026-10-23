@@ -1,39 +1,10 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
-
-@theme {
-  --font-sans: "Cairo", sans-serif;
-  --color-ivory: #F5F0E8;
-  --color-gold: #C7A775;
-  --color-wood: #6D5340;
-  --color-charcoal: #252525;
-}
-
-:root {
-  font-family: var(--font-sans);
-  color: var(--color-charcoal);
-  background-color: var(--color-ivory);
-  font-synthesis: none;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  min-width: 320px;
-}
-
-button, a {
-  -webkit-tap-highlight-color: transparent;
-}
-
-a {
-  text-decoration: none;
-}
+@theme { --font-sans: "Cairo", sans-serif; --color-ivory: #F5F0E8; --color-gold: #C7A775; --color-wood: #6D5340; --color-charcoal: #252525; }
+:root { font-family: var(--font-sans); color: var(--color-charcoal); background-color: var(--color-ivory); font-synthesis: none; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; min-width: 320px; }
+a { text-decoration: none; }
+a:focus-visible, button:focus-visible { outline: 3px solid #AA7D42; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; } }

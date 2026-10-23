@@ -1,28 +1,42 @@
 ---
+import { site } from '../data/site';
 import '../styles/global.css';
-
-interface Props {
-  title: string;
-  description?: string;
-}
-
-const {
-  title,
-  description = 'أركان الرياض للتصميم الداخلي والاستشارات. تصميم وتنفيذ وتركيب الديكورات في الرياض، وتوريد المواد لجميع مناطق المملكة.',
-} = Astro.props;
+interface Props { title: string; description?: string; image?: string; noindex?: boolean; }
+const {title,description='أركان الرياض للتصميم الداخلي والاستشارات؛ تصميم وتنفيذ وتركيب الديكور بالرياض وتوريد المواد لجميع محافظات المملكة.',image='/images/foam-mouldings-reference.svg',noindex=false} = Astro.props;
+// ضع الدومين الحقيقي في PUBLIC_SITE_URL بعد شرائه، مثل https://example.sa
+const siteUrl = import.meta.env.PUBLIC_SITE_URL?.replace(/\/$/, '');
+const indexingEnabled = import.meta.env.PUBLIC_ALLOW_INDEXING === 'true' && Boolean(siteUrl);
+const canonical = indexingEnabled ? new URL(Astro.url.pathname, siteUrl).toString() : undefined;
+const shareImage = indexingEnabled ? new URL(image,siteUrl).toString() : undefined;
+const schema = indexingEnabled ? {
+ '@context': 'https://schema.org', '@type': 'HomeAndConstructionBusiness',
+ name: site.fullName, url:siteUrl,
+ telephone: site.phoneE164, description,
+ areaServed:[{ '@type':'City', name:'الرياض'},{ '@type':'Country', name:'المملكة العربية السعودية', description:'توريد المواد فقط خارج الرياض' }],
+ availableLanguage:['ar']
+} : undefined;
 ---
-
 <!doctype html>
 <html lang="ar" dir="rtl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
-    <meta name="theme-color" content="#F5F0E8" />
-    <title>{title}</title>
-  </head>
-
-  <body>
-    <slot />
-  </body>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#F5F0E8" />
+<meta name="description" content={description} />
+<meta name="format-detection" content="telephone=yes" />
+<!-- لا نفهرس نسخة التطوير قبل حسم الاسم والدومين -->
+{(!indexingEnabled || noindex) && <meta name="robots" content="noindex,nofollow" />}
+{canonical && <link rel="canonical" href={canonical} />}
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="ar_SA" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+{canonical && <meta property="og:url" content={canonical} />}
+{shareImage && <meta property="og:image" content={shareImage} />}
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<title>{title}</title>
+{schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+</head>
+<body><slot /></body>
 </html>
