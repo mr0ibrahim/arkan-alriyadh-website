@@ -1,14 +1,12 @@
 ---
-import { site, contactLink } from '../data/site';
-import { gallery } from '../data/gallery';
-const heroImage = gallery.find(image => image.category === 'sheeboard');
-const whatsapp = contactLink();
+const heroImage = '/images/hero-main.webp';
+const whatsapp = 'https://wa.me/966533340982?text=' + encodeURIComponent('السلام عليكم، أرغب في الاستفسار عن خدمات أركان الرياض للتصميم الداخلي.');
 ---
 <section id="home" class="bg-ivory">
   <div class="mx-auto grid max-w-7xl items-center gap-10 px-5 py-12 lg:grid-cols-2 lg:py-20">
     <div class="order-2 lg:order-1">
       <p class="mb-5 font-bold text-wood">12 عامًا من الخبرة في التصميم والديكور</p>
-      <h1 class="mb-6 text-4xl leading-[1.6] font-extrabold text-charcoal md:text-5xl">{site.name} <span class="block text-wood">جمال المساحات يبدأ من التفاصيل</span></h1>
+      <h1 class="mb-6 text-4xl leading-[1.6] font-extrabold text-charcoal md:text-5xl">أركان الرياض <span class="block text-wood">جمال المساحات يبدأ من التفاصيل</span></h1>
       <p class="mb-8 max-w-xl leading-9 text-charcoal/75">تصميم وتنفيذ وتركيب الديكورات الداخلية في الرياض: الشيبورد والباركيه ونعلات الفايبر والبـانوهات والدهانات، مع توريد المواد إلى مختلف محافظات المملكة.</p>
       <div class="flex flex-wrap gap-3">
         <a href={whatsapp} target="_blank" rel="noopener noreferrer" class="rounded-full bg-wood px-7 py-4 font-bold text-white hover:bg-charcoal">تواصل عبر واتساب</a>
@@ -16,7 +14,7 @@ const whatsapp = contactLink();
       </div>
     </div>
     <div class="order-1 overflow-hidden rounded-[2rem] bg-[#dfcfb6] shadow-xl lg:order-2">
-      {heroImage && <img onerror="this.onerror=null;this.src='/images/painting-reference.svg'" src={heroImage.src} alt={heroImage.alt} width="1000" height="750" fetchpriority="high" decoding="async" class="aspect-[4/3] h-full w-full object-cover lg:aspect-[5/4]" />}
+      <img src={heroImage} alt="تصور إلهامي لمجلس أنيق بتفاصيل ديكور وتشطيبات داخلية" width="1000" height="750" fetchpriority="high" decoding="async" class="aspect-[4/3] h-full w-full object-cover lg:aspect-[5/4]" />
     </div>
   </div>
 </section>
