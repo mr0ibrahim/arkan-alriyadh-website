@@ -1,0 +1,18 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import FloatingContact from '../../components/FloatingContact.astro';
+import OurWork from '../../components/OurWork.astro';
+import { site } from '../../data/site';
+---
+<MainLayout title={`أعمالنا في الديكور والتشطيبات | ${site.fullName}`} description="شاهد صور مشروعات التشطيب والديكور المقدمة من العميل: التكسيات الجدارية والباركيه والبانوهات والنعلات ومراحل التنفيذ.">
+  <Header />
+  <main>
+    <section class="bg-ivory py-12"><div class="mx-auto max-w-7xl px-5"><nav class="mb-6 text-sm text-wood" aria-label="مسار الصفحة"><a href="/" class="underline underline-offset-4">الرئيسية</a><span aria-hidden="true"> / </span><span>أعمالنا</span></nav><p class="font-bold text-wood">معرض الأعمال</p><h1 class="mt-3 text-4xl font-extrabold text-charcoal md:text-5xl">أعمالنا في الديكور والتشطيبات</h1><p class="mt-5 max-w-3xl leading-8 text-charcoal/70">صور واقعية مقدمة من العميل لأعمال الديكور والتشطيب بمراحلها المختلفة. بعض الصور تُظهر مراحل عمل لم تكتمل وقت التصوير.</p></div></section>
+    <OurWork />
+    <section class="bg-ivory py-12 text-center"><a href="/#contact" class="inline-flex rounded-full bg-wood px-8 py-4 font-extrabold text-white">تواصل معنا لمناقشة مشروعك ←</a></section>
+  </main>
+  <Footer />
+  <FloatingContact />
+</MainLayout>

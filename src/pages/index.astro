@@ -6,6 +6,7 @@ import Hero from '../components/Hero.astro';
 import Footer from '../components/Footer.astro';
 import FloatingContact from '../components/FloatingContact.astro';
 import DesignGallery from '../components/DesignGallery.astro';
+import OurWork from '../components/OurWork.astro';
 import { services } from '../data/services';
 import { gallery } from '../data/gallery';
 const whatsappUrl = (service: string) => contactLink(service);
@@ -36,6 +37,7 @@ const whatsappUrl = (service: string) => contactLink(service);
         </div>
       </div>
     </section>
+    <OurWork compact />
     <DesignGallery />
     <section class="bg-white py-16"><div class="mx-auto max-w-7xl px-5 text-center"><p class="mb-3 font-bold text-wood">نطاق خدماتنا</p><h2 class="mb-4 text-3xl font-extrabold">التركيب في الرياض، والتوريد لجميع محافظات المملكة</h2><p class="leading-8 text-charcoal/70">نوفر التصميم والتنفيذ والتركيب داخل الرياض، وتوريد مواد الخدمات الخمس إلى بقية المملكة. المعاينة والمقاسات بالاتفاق مع العميل.</p></div></section>
     <section id="contact" class="scroll-mt-24 bg-ivory py-20"><div class="mx-auto max-w-4xl px-5 text-center"><p class="mb-3 font-bold text-wood">تواصل معنا</p><h2 class="mb-6 text-3xl font-extrabold">هل لديك تصميم ترغب في تنفيذه؟</h2><p class="mb-8 leading-8 text-charcoal/70">تواصل معنا الآن لاستعراض الخيارات المناسبة للخامات والتشطيبات حسب رغبتك.</p><div class="flex flex-wrap justify-center gap-3"><a href={whatsappUrl('الديكور الداخلي')} target="_blank" rel="noopener noreferrer" class="rounded-full bg-wood px-8 py-4 font-bold text-white hover:bg-charcoal">تواصل عبر واتساب</a><a href={callLink} class="rounded-full border border-wood px-8 py-4 font-bold text-wood hover:bg-wood hover:text-white">اتصل الآن</a></div></div></section>
