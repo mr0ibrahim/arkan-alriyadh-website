@@ -1,11 +1,11 @@
 ---
 import { gallery, galleryCategories } from '../data/gallery';
 ---
-<section id="designs" class="bg-ivory py-20" aria-labelledby="gallery-title">
+<section id="designs" class="border-t border-wood/10 bg-white py-24" aria-labelledby="gallery-title">
   <div class="mx-auto max-w-7xl px-5">
-    <p class="mb-3 text-center font-bold text-wood">إلهام وتصاميم</p>
-    <h2 id="gallery-title" class="mb-4 text-center text-3xl font-extrabold md:text-4xl">نماذج للتصاميم حسب الطلب</h2>
-    <p class="mx-auto mb-8 max-w-3xl text-center leading-8 text-charcoal/70">الصور استرشادية لتوضيح الأفكار والخامات، ولا تمثل بالضرورة أعمالًا منفذة من قبلنا. يتم تحديد الشكل والخامات بعد الاتفاق.</p>
+    <p class="mb-3 text-center font-bold text-wood">مساحات تلهمك</p>
+    <h2 id="gallery-title" class="mb-4 text-center text-3xl font-extrabold md:text-4xl">أفكار وتصاميم تناسب مساحتك</h2>
+    <p class="mx-auto mb-8 max-w-3xl text-center leading-8 text-charcoal/70">استكشف رؤى بصرية للديكور والخامات والتشطيبات الممكنة. هذه الصور تصوّرات تصميمية استرشادية وليست توثيقًا لأعمال منفذة، ونخصص الاختيارات النهائية بما يتناسب مع المساحة واحتياجاتك.</p>
     <div class="mb-9 flex flex-wrap justify-center gap-2" role="group" aria-label="تصنيف صور التصاميم">
       {galleryCategories.map((category) => (
         <button type="button" data-filter={category.id} aria-pressed={category.id === 'all' ? 'true' : 'false'} class="gallery-filter rounded-full border border-wood/30 px-4 py-2 text-sm font-bold text-wood transition hover:bg-wood hover:text-white aria-pressed:bg-wood aria-pressed:text-white">{category.label}</button>

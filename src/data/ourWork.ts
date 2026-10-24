@@ -1,4 +1,4 @@
-/** صور مقدمة من العميل. التصنيف وصفي حسب الصورة، دون إثبات الملكية أو مواد التنفيذ. */
+/** معرض صور الأعمال المقدمة للموقع؛ الوصف بحسب الظاهر في الصورة. راجع الحقوق ونسبة التنفيذ قبل النشر. */
 export type WorkCategory = 'sheeboard' | 'parquet' | 'fiber-skirting' | 'foam-mouldings' | 'painting' | 'process';
 export interface WorkItem { id: string; category: WorkCategory; title: string; src: string; width: number; height: number; status: string; }
 export const workItems: WorkItem[] = [

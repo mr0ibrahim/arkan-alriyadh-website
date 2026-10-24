@@ -11,13 +11,13 @@ import { services } from '../data/services';
 import { gallery } from '../data/gallery';
 const whatsappUrl = (service: string) => contactLink(service);
 ---
-<MainLayout title={`${site.fullName} | شيبورد وباركيه ودهانات بالرياض`} description={`${site.fullName}؛ 12 عامًا من الخبرة في الشيبورد والباركيه والبـانوهات ونعلات الفايبر والدهانات في الرياض، مع توريد المواد لجميع مناطق المملكة.`}>
+<MainLayout title={`${site.fullName} | شيبورد وباركيه ودهانات بالرياض`} description={`${site.fullName}؛ 12 عامًا من الخبرة في الشيبورد والباركيه والبانوهات ونعلات الفايبر والدهانات في الرياض، مع توريد المواد لجميع مناطق المملكة.`}>
   <Header />
   <main>
     <Hero />
     <section id="services" class="scroll-mt-24 bg-white py-20" aria-labelledby="services-heading">
       <div class="mx-auto max-w-7xl px-5">
-        <div class="mb-11 text-center"><p class="mb-3 font-bold text-wood">خدماتنا</p><h2 id="services-heading" class="text-3xl font-extrabold text-charcoal md:text-4xl">حلول متكاملة للديكور الداخلي</h2><p class="mx-auto mt-4 max-w-2xl leading-8 text-charcoal/65">نصمم وننفذ حسب الطلب بما يناسب مساحتك واختياراتك من الخامات والألوان.</p></div>
+        <div class="mb-11 text-center"><p class="mb-3 font-bold text-wood">خدماتنا</p><h2 id="services-heading" class="text-3xl font-extrabold text-charcoal md:text-4xl">حلول ديكور تُنفّذ بعناية</h2><p class="mx-auto mt-4 max-w-2xl leading-8 text-charcoal/65">من الفكرة إلى اللمسة الأخيرة، نختار معك التشطيبات والخامات التي تحقق التوازن بين الجمال والوظيفة.</p></div>
         <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service) => {
             const preview = gallery.find(image => image.category === service.id);
@@ -28,7 +28,7 @@ const whatsappUrl = (service: string) => contactLink(service);
                   <p class="mb-2 text-xs font-bold text-wood">{service.shortDescription}</p>
                   <h3 class="mb-3 text-xl font-extrabold text-charcoal"><a href={`/services/${service.id}/`} class="hover:text-wood focus-visible:underline">{service.title}</a></h3>
                   <p class="mb-5 flex-1 leading-8 text-charcoal/70">{service.description}</p>
-                  <a href={`/services/${service.id}/`} class="mb-4 w-fit text-sm font-extrabold text-wood underline underline-offset-4">شاهد التفاصيل ونماذج التصاميم ←</a>
+                  <a href={`/services/${service.id}/`} class="mb-4 w-fit text-sm font-extrabold text-wood underline underline-offset-4">تفاصيل الخدمة ←</a>
                   <a href={whatsappUrl(service.title)} target="_blank" rel="noopener noreferrer" class="w-fit border-b border-wood pb-1 font-bold text-wood hover:text-charcoal">استفسر عن الخدمة ←</a>
                 </div>
               </article>
@@ -39,8 +39,8 @@ const whatsappUrl = (service: string) => contactLink(service);
     </section>
     <OurWork compact />
     <DesignGallery />
-    <section class="bg-white py-16"><div class="mx-auto max-w-7xl px-5 text-center"><p class="mb-3 font-bold text-wood">نطاق خدماتنا</p><h2 class="mb-4 text-3xl font-extrabold">التركيب في الرياض، والتوريد لجميع محافظات المملكة</h2><p class="leading-8 text-charcoal/70">نوفر التصميم والتنفيذ والتركيب داخل الرياض، وتوريد مواد الخدمات الخمس إلى بقية المملكة. المعاينة والمقاسات بالاتفاق مع العميل.</p></div></section>
-    <section id="contact" class="scroll-mt-24 bg-ivory py-20"><div class="mx-auto max-w-4xl px-5 text-center"><p class="mb-3 font-bold text-wood">تواصل معنا</p><h2 class="mb-6 text-3xl font-extrabold">هل لديك تصميم ترغب في تنفيذه؟</h2><p class="mb-8 leading-8 text-charcoal/70">تواصل معنا الآن لاستعراض الخيارات المناسبة للخامات والتشطيبات حسب رغبتك.</p><div class="flex flex-wrap justify-center gap-3"><a href={whatsappUrl('الديكور الداخلي')} target="_blank" rel="noopener noreferrer" class="rounded-full bg-wood px-8 py-4 font-bold text-white hover:bg-charcoal">تواصل عبر واتساب</a><a href={callLink} class="rounded-full border border-wood px-8 py-4 font-bold text-wood hover:bg-wood hover:text-white">اتصل الآن</a></div></div></section>
+    <section class="bg-white py-16"><div class="mx-auto max-w-7xl px-5 text-center"><p class="mb-3 font-bold text-wood">نطاق خدماتنا</p><h2 class="mb-4 text-3xl font-extrabold">تنفيذ وتركيب في الرياض، وتوريد لمختلف مناطق المملكة</h2><p class="leading-8 text-charcoal/70">نقدّم خدمات التصميم والتنفيذ والتركيب داخل الرياض، مع إمكانية توريد المواد إلى مختلف مناطق المملكة. ننسّق المعاينة والمقاسات وخيارات التوريد وفق متطلبات كل مشروع.</p></div></section>
+    <section id="contact" class="scroll-mt-24 bg-ivory py-20"><div class="mx-auto max-w-4xl px-5 text-center"><p class="mb-3 font-bold text-wood">تواصل معنا</p><h2 class="mb-6 text-3xl font-extrabold">لنحوّل فكرتك إلى مساحة متقنة</h2><p class="mb-8 leading-8 text-charcoal/70">أخبرنا بطبيعة المساحة والتشطيب الذي تتطلع إليه، وسنناقش معك الحلول المناسبة من حيث التصميم والخامات والتنفيذ.</p><div class="flex flex-wrap justify-center gap-3"><a href={whatsappUrl('الديكور الداخلي')} target="_blank" rel="noopener noreferrer" class="rounded-full bg-wood px-8 py-4 font-bold text-white hover:bg-charcoal">تواصل عبر واتساب</a><a href={callLink} class="rounded-full border border-wood px-8 py-4 font-bold text-wood hover:bg-wood hover:text-white">اتصل الآن</a></div></div></section>
   </main>
   <Footer />
   <FloatingContact />
