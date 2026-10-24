@@ -34,10 +34,10 @@ const description = `${service.description} تصميم وتنفيذ وتركيب
 
     <section class="mx-auto grid max-w-7xl items-center gap-10 px-5 py-12 lg:grid-cols-2 lg:py-20">
       <div>
-        <p class="mb-4 font-bold text-wood">تصاميم حسب الطلب · الرياض</p>
+        <p class="mb-4 font-bold text-wood">تصميم وتشطيبات داخلية · الرياض</p>
         <h1 class="mb-6 text-4xl font-extrabold leading-relaxed text-charcoal md:text-5xl">{service.title}</h1>
         <p class="mb-4 text-lg font-semibold text-wood">{service.shortDescription}</p>
-        <p class="mb-8 max-w-xl leading-9 text-charcoal/75">{service.description} نناقش معك الخيارات الملائمة للمساحة والخامات والتشطيب قبل التنفيذ.</p>
+        <p class="mb-8 max-w-xl leading-9 text-charcoal/75">{service.description} نراعي طبيعة المساحة وتناسق الخامات والألوان، ونناقش تفاصيل التنفيذ والتشطيب بما يلائم احتياجاتك.</p>
         <div class="flex flex-wrap gap-3">
           <a href={whatsapp} target="_blank" rel="noopener noreferrer" class="rounded-full bg-wood px-7 py-4 font-bold text-white transition hover:bg-charcoal">استفسر عن الخدمة عبر واتساب</a>
           <a href={callLink} class="rounded-full border border-wood px-7 py-4 font-bold text-wood transition hover:bg-wood hover:text-white">اتصل الآن</a>
@@ -50,9 +50,9 @@ const description = `${service.description} تصميم وتنفيذ وتركيب
 
     <section class="bg-white py-16" aria-labelledby="samples-title">
       <div class="mx-auto max-w-7xl px-5">
-        <p class="mb-3 text-center font-bold text-wood">إلهام حسب الطلب</p>
+        <p class="mb-3 text-center font-bold text-wood">أفكار وإلهام</p>
         <h2 id="samples-title" class="mb-4 text-center text-3xl font-extrabold">نماذج {service.title}</h2>
-        <p class="mx-auto mb-9 max-w-3xl text-center leading-8 text-charcoal/65">الصور المعروضة استرشادية لتوضيح الأفكار والتشطيبات ولا تُنسب إلى أعمال نفذناها. تحدد التفاصيل والخامات بحسب طلب العميل.</p>
+        <p class="mx-auto mb-9 max-w-3xl text-center leading-8 text-charcoal/65">تعرض هذه الصور تصورات تصميمية للاسترشاد بالخامات والألوان، وليست صورًا لمشروعات منفذة. نحدد تفاصيل التصميم والخامات بعد مناقشة متطلبات مشروعك.</p>
         {photos.length > 0 ? (
           <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {photos.map((photo) => (
@@ -69,7 +69,7 @@ const description = `${service.description} تصميم وتنفيذ وتركيب
     <section class="bg-ivory py-16">
       <div class="mx-auto max-w-5xl px-5 text-center">
         <h2 class="mb-5 text-3xl font-extrabold">أين نقدم هذه الخدمة؟</h2>
-        <p class="leading-9 text-charcoal/75">التصميم والتنفيذ والتركيب في الرياض، مع توريد المواد إلى جميع محافظات المملكة. المعاينة والمقاسات وتفاصيل الشحن بالاتفاق مع العميل.</p>
+        <p class="leading-9 text-charcoal/75">ننفذ ونركّب داخل الرياض، ونتيح توريد المواد لمختلف مناطق المملكة. تُحدّد المعاينة والمقاسات والشحن وفق نطاق العمل والاتفاق.</p>
         <a href={whatsapp} target="_blank" rel="noopener noreferrer" class="mt-8 inline-block rounded-full bg-wood px-8 py-4 font-bold text-white hover:bg-charcoal">تواصل معنا لطلب {service.title}</a>
       </div>
     </section>

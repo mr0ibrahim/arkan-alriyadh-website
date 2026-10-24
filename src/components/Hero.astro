@@ -1,16 +1,17 @@
 ---
+import { contactLink, site } from '../data/site';
 const heroImage = '/images/hero-main.webp';
-const whatsapp = 'https://wa.me/966533340982?text=' + encodeURIComponent('السلام عليكم، أرغب في الاستفسار عن خدمات أركان الرياض للتصميم الداخلي.');
+const whatsapp = contactLink();
 ---
 <section id="home" class="bg-ivory">
   <div class="mx-auto grid max-w-7xl items-center gap-10 px-5 py-12 lg:grid-cols-2 lg:py-20">
     <div class="order-2 lg:order-1">
-      <p class="mb-5 font-bold text-wood">12 عامًا من الخبرة في التصميم والديكور</p>
-      <h1 class="mb-6 text-4xl leading-[1.6] font-extrabold text-charcoal md:text-5xl">أركان الرياض <span class="block text-wood">جمال المساحات يبدأ من التفاصيل</span></h1>
-      <p class="mb-8 max-w-xl leading-9 text-charcoal/75">تصميم وتنفيذ وتركيب الديكورات الداخلية في الرياض: الشيبورد والباركيه ونعلات الفايبر والبـانوهات والدهانات، مع توريد المواد إلى مختلف محافظات المملكة.</p>
+      <p class="mb-5 font-bold text-wood">خبرة 12 عامًا في الديكور الداخلي</p>
+      <h1 class="mb-6 text-4xl leading-[1.6] font-extrabold text-charcoal md:text-5xl">{site.name} <span class="block text-wood">تفاصيل متقنة، ومساحات أجمل</span></h1>
+      <p class="mb-8 max-w-xl leading-9 text-charcoal/75">نصمّم وننفّذ حلول الديكور الداخلي بعناية، من التكسيات الجدارية والباركيه إلى البانوهات والنعلات والدهانات. نخدم مشاريع التنفيذ والتركيب في الرياض، ونوفر توريد المواد إلى أنحاء المملكة.</p>
       <div class="flex flex-wrap gap-3">
         <a href={whatsapp} target="_blank" rel="noopener noreferrer" class="rounded-full bg-wood px-7 py-4 font-bold text-white hover:bg-charcoal">تواصل عبر واتساب</a>
-        <a href="/#designs" class="rounded-full border border-wood px-7 py-4 font-bold text-wood hover:bg-wood hover:text-white">شاهد نماذج التصاميم</a>
+        <a href="/#services" class="rounded-full border border-wood px-7 py-4 font-bold text-wood hover:bg-wood hover:text-white">استكشف خدماتنا</a>
       </div>
     </div>
     <div class="order-1 overflow-hidden rounded-[2rem] bg-[#dfcfb6] shadow-xl lg:order-2">

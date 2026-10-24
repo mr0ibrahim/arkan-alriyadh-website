@@ -1,0 +1,18 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import FloatingContact from '../../components/FloatingContact.astro';
+import OurWork from '../../components/OurWork.astro';
+import { site } from '../../data/site';
+---
+<MainLayout title={`أعمالنا في الديكور والتشطيبات | ${site.fullName}`} description="اكتشف نماذج من أعمالنا في الديكور الداخلي: التكسيات الجدارية، الباركيه، النعلات والبراويز الجدارية، إلى جانب لقطات من مراحل التنفيذ.">
+  <Header />
+  <main>
+    <section class="border-b border-wood/10 bg-ivory py-16 md:py-20"><div class="mx-auto max-w-7xl px-5"><nav class="mb-6 text-sm text-wood" aria-label="مسار الصفحة"><a href="/" class="underline underline-offset-4">الرئيسية</a><span aria-hidden="true"> / </span><span>أعمالنا</span></nav><p class="font-bold text-wood">تفاصيل تصنع الفرق</p><h1 class="mt-3 text-4xl font-extrabold text-charcoal md:text-5xl">أعمال نفخر بتفاصيلها</h1><p class="mt-5 max-w-3xl leading-8 text-charcoal/70">نستعرض مجموعة من تطبيقات الديكور والتشطيبات الداخلية، حيث تلتقي جودة التنفيذ بتناسق الخامات. اختر نوع الخدمة لاستعراض الصور، واضغط على أي عمل لمشاهدة تفاصيله عن قرب.</p></div></section>
+    <OurWork />
+    <section class="bg-ivory py-12 text-center"><a href="/#contact" class="inline-flex rounded-full bg-wood px-8 py-4 font-extrabold text-white">ابدأ معنا تفاصيل مشروعك ←</a></section>
+  </main>
+  <Footer />
+  <FloatingContact />
+</MainLayout>
