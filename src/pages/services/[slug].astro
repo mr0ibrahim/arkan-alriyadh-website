@@ -23,7 +23,7 @@ const others = services.filter((item) => item.id !== service.id);
 const whatsapp = contactLink(service.title);
 const description = `${service.description} تصميم وتنفيذ وتركيب في الرياض، وتوريد المواد لجميع محافظات المملكة. للاستفسار: 0533340982.`;
 ---
-<MainLayout title={`${service.title} بالرياض | أركان الرياض للتصميم الداخلي`} description={description}>
+<MainLayout title={`${service.title} بالرياض | ${site.fullName}`} description={description}>
   <Header />
   <main>
     <nav aria-label="مسار التصفح" class="mx-auto max-w-7xl px-5 pt-7 text-sm text-charcoal/65">

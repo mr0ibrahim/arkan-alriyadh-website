@@ -1,5 +1,5 @@
 ---
-import { contactLink, callLink } from '../data/site';
+import { site, contactLink, callLink } from '../data/site';
 import MainLayout from '../layouts/MainLayout.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
@@ -10,7 +10,7 @@ import { services } from '../data/services';
 import { gallery } from '../data/gallery';
 const whatsappUrl = (service: string) => contactLink(service);
 ---
-<MainLayout title="أركان الرياض | ديكور داخلي وشيبورد وباركيه ودهانات بالرياض" description="أركان الرياض للتصميم الداخلي والاستشارات؛ 12 عامًا من الخبرة في الشيبورد والباركيه والبـانوهات ونعلات الفايبر والدهانات في الرياض، مع توريد المواد لجميع مناطق المملكة.">
+<MainLayout title={`${site.fullName} | شيبورد وباركيه ودهانات بالرياض`} description={`${site.fullName}؛ 12 عامًا من الخبرة في الشيبورد والباركيه والبـانوهات ونعلات الفايبر والدهانات في الرياض، مع توريد المواد لجميع مناطق المملكة.`}>
   <Header />
   <main>
     <Hero />
