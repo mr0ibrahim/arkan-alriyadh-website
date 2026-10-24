@@ -2,7 +2,7 @@
 import { site } from '../data/site';
 import '../styles/global.css';
 interface Props { title: string; description?: string; image?: string; noindex?: boolean; }
-const {title,description='أركان الرياض للتصميم الداخلي والاستشارات؛ تصميم وتنفيذ وتركيب الديكور بالرياض وتوريد المواد لجميع محافظات المملكة.',image='/images/foam-mouldings-reference.svg',noindex=false} = Astro.props;
+const {title,description=`${site.fullName}؛ تصميم وتنفيذ وتركيب الديكور بالرياض وتوريد المواد لجميع محافظات المملكة.`,image='/images/foam-mouldings-reference.svg',noindex=false} = Astro.props;
 // ضع الدومين الحقيقي في PUBLIC_SITE_URL بعد شرائه، مثل https://example.sa
 const siteUrl = import.meta.env.PUBLIC_SITE_URL?.replace(/\/$/, '');
 const indexingEnabled = import.meta.env.PUBLIC_ALLOW_INDEXING === 'true' && Boolean(siteUrl);
@@ -10,7 +10,7 @@ const canonical = indexingEnabled ? new URL(Astro.url.pathname, siteUrl).toStrin
 const shareImage = indexingEnabled ? new URL(image,siteUrl).toString() : undefined;
 const schema = indexingEnabled ? {
  '@context': 'https://schema.org', '@type': 'HomeAndConstructionBusiness',
- name: site.fullName, url:siteUrl,
+ name: site.fullName, url:siteUrl, image: new URL("/images/arkan-logo.webp", siteUrl).toString(),
  telephone: site.phoneE164, description,
  areaServed:[{ '@type':'City', name:'الرياض'},{ '@type':'Country', name:'المملكة العربية السعودية', description:'توريد المواد فقط خارج الرياض' }],
  availableLanguage:['ar']
@@ -24,7 +24,7 @@ const schema = indexingEnabled ? {
 <meta name="theme-color" content="#F5F0E8" />
 <meta name="description" content={description} />
 <meta name="format-detection" content="telephone=yes" />
-<!-- لا نفهرس نسخة التطوير قبل حسم الاسم والدومين -->
+<!-- تبقى الفهرسة معطلة حتى اعتماد الدومين وتفعيل إعدادات الإنتاج -->
 {(!indexingEnabled || noindex) && <meta name="robots" content="noindex,nofollow" />}
 {canonical && <link rel="canonical" href={canonical} />}
 <meta property="og:type" content="website" />
@@ -34,7 +34,7 @@ const schema = indexingEnabled ? {
 {canonical && <meta property="og:url" content={canonical} />}
 {shareImage && <meta property="og:image" content={shareImage} />}
 <meta name="twitter:card" content="summary_large_image" />
-<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="/favicon.png" type="image/png" />
 <title>{title}</title>
 {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
 </head>

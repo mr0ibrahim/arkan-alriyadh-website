@@ -1,15 +1,15 @@
-/** عدّل هذا الملف فقط عند اعتماد هوية العميل والرقم. */
+/** بيانات النشاط المعتمدة؛ عدّل القيم عند الحاجة. */
 export const site = {
-  name: 'أركان الرياض', // اسم مؤقت إلى حين التحقق التجاري
-  subtitle: 'للتصميم الداخلي والاستشارات',
-  fullName: 'أركان الرياض للتصميم الداخلي والاستشارات',
+  name: 'أركان الرياض للديكور',
+  subtitle: 'تصميم وتنفيذ وتوريد الديكور الداخلي',
+  fullName: 'أركان الرياض للديكور',
   yearsExperience: 12,
   phoneDisplay: '+966 53 334 0982',
   phoneE164: '+966533340982',
   whatsappNumber: '966533340982',
   serviceCity: 'الرياض',
   suppliesNationwide: true,
-  temporaryBrand: true,
+  temporaryBrand: false,
 } as const;
 
 export const contactLink = (service?: string) =>
