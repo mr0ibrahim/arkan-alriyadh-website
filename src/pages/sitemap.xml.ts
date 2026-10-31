@@ -1,9 +1,50 @@
 import type { APIRoute } from 'astro';
 import { services } from '../data/services';
+import { site } from '../data/site';
+
 export const GET: APIRoute = () => {
- const base=import.meta.env.PUBLIC_ALLOW_INDEXING === 'true' ? import.meta.env.PUBLIC_SITE_URL?.replace(/\/$/,'') : undefined;
- if (!base) return new Response('Site URL not configured', {status:404});
- const paths=['/','/services/sheeboard/','/services/parquet/','/services/fiber-skirting/','/services/foam-mouldings/','/services/painting/'];
- const items=paths.map(path=>`<url><loc>${new URL(path,base).toString()}</loc></url>`).join('');
- return new Response(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${items}</urlset>`, {headers:{'Content-Type':'application/xml; charset=utf-8'}});
+  const envUrl = import.meta.env.PUBLIC_SITE_URL?.replace(/\/$/, '');
+  const base = envUrl || site.defaultUrl;
+  const now = new Date().toISOString().split('T')[0];
+
+  const routes = [
+    {
+      path: '/',
+      priority: '1.0',
+      changefreq: 'weekly',
+    },
+    {
+      path: '/our-work/',
+      priority: '0.9',
+      changefreq: 'weekly',
+    },
+    ...services.map((service) => ({
+      path: `/services/${service.id}/`,
+      priority: '0.8',
+      changefreq: 'monthly',
+    })),
+  ];
+
+  const items = routes
+    .map(
+      (route) => `  <url>
+    <loc>${new URL(route.path, base).toString()}</loc>
+    <lastmod>${now}</lastmod>
+    <changefreq>${route.changefreq}</changefreq>
+    <priority>${route.priority}</priority>
+  </url>`,
+    )
+    .join('\n');
+
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${items}
+</urlset>`;
+
+  return new Response(xml, {
+    headers: {
+      'Content-Type': 'application/xml; charset=utf-8',
+      'X-Robots-Tag': 'noindex', // Sitemap itself doesn't need to be indexed as a page
+    },
+  });
 };

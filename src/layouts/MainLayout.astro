@@ -1,42 +1,213 @@
 ---
 import { site } from '../data/site';
+import { services } from '../data/services';
 import '../styles/global.css';
-interface Props { title: string; description?: string; image?: string; noindex?: boolean; }
-const {title,description=`${site.fullName}؛ تصميم وتنفيذ وتركيب الديكور بالرياض وتوريد المواد لجميع محافظات المملكة.`,image='/images/foam-mouldings-reference.svg',noindex=false} = Astro.props;
-// ضع الدومين الحقيقي في PUBLIC_SITE_URL بعد شرائه، مثل https://example.sa
-const siteUrl = import.meta.env.PUBLIC_SITE_URL?.replace(/\/$/, '');
-const indexingEnabled = import.meta.env.PUBLIC_ALLOW_INDEXING === 'true' && Boolean(siteUrl);
-const canonical = indexingEnabled ? new URL(Astro.url.pathname, siteUrl).toString() : undefined;
-const shareImage = indexingEnabled ? new URL(image,siteUrl).toString() : undefined;
-const schema = indexingEnabled ? {
- '@context': 'https://schema.org', '@type': 'HomeAndConstructionBusiness',
- name: site.fullName, url:siteUrl, image: new URL("/images/arkan-logo.webp", siteUrl).toString(),
- telephone: site.phoneE164, description,
- areaServed:[{ '@type':'City', name:'الرياض'},{ '@type':'Country', name:'المملكة العربية السعودية', description:'توريد المواد فقط خارج الرياض' }],
- availableLanguage:['ar']
-} : undefined;
+
+export interface BreadcrumbItem {
+  name: string;
+  url: string;
+}
+
+interface Props {
+  title: string;
+  description?: string;
+  keywords?: string[] | string;
+  image?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  breadcrumbs?: BreadcrumbItem[];
+  extraSchemas?: Record<string, any>[];
+}
+
+const {
+  title,
+  description = `${site.fullName}؛ خبرة 12 عاماً في تنفيذ وتوريد الشيبورد، الباركيه، نعلات الفايبر، براويز الفوم، والدهانات في الرياض، مع توريد المواد لجميع مناطق المملكة.`,
+  keywords = site.keywords,
+  image = '/images/hero-main.webp',
+  type = 'website',
+  noindex = false,
+  breadcrumbs = [],
+  extraSchemas = [],
+} = Astro.props;
+
+// Resolve Base URL
+const envUrl = import.meta.env.PUBLIC_SITE_URL?.replace(/\/$/, '');
+const isProductionIndexing = import.meta.env.PUBLIC_ALLOW_INDEXING === 'true';
+const baseUrl = envUrl || site.defaultUrl;
+
+// Absolute URLs
+const canonicalUrl = new URL(Astro.url.pathname, baseUrl).toString();
+const socialImage = new URL(image, baseUrl).toString();
+const logoImage = new URL('/images/arkan-logo.webp', baseUrl).toString();
+
+// Keywords String
+const formattedKeywords = Array.isArray(keywords) ? keywords.join(', ') : keywords;
+
+// Robots Directive
+const robotsContent = noindex || (!isProductionIndexing && !envUrl)
+  ? 'noindex, nofollow'
+  : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
+
+// --- Structured Data (Schema.org) ---
+
+// 1. Local Business & Home Construction Schema
+const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HomeAndConstructionBusiness',
+  '@id': `${baseUrl}/#business`,
+  name: site.fullName,
+  alternateName: site.name,
+  legalName: site.legalName,
+  url: baseUrl,
+  logo: {
+    '@type': 'ImageObject',
+    url: logoImage,
+    caption: site.name,
+  },
+  image: socialImage,
+  description,
+  telephone: site.phoneE164,
+  email: site.email,
+  priceRange: site.priceRange,
+  openingHours: site.openingHours,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.address.streetAddress,
+    addressLocality: site.address.addressLocality,
+    addressRegion: site.address.addressRegion,
+    postalCode: site.address.postalCode,
+    addressCountry: site.address.addressCountry,
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: site.geo.latitude,
+    longitude: site.geo.longitude,
+  },
+  areaServed: [
+    {
+      '@type': 'City',
+      name: 'الرياض',
+      description: 'تنفيذ وتركيب وتوريد ديكور ميداني داخل الرياض',
+    },
+    {
+      '@type': 'Country',
+      name: 'المملكة العربية السعودية',
+      description: 'توريد وشحن مواد وخامات الديكور لكافة مناطق ومحافظات المملكة',
+    },
+  ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'كتالوج خدمات الديكور والتشطيبات',
+    itemListElement: services.map((s) => ({
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: s.title,
+        description: s.description,
+        url: `${baseUrl}/services/${s.id}/`,
+      },
+    })),
+  },
+  sameAs: [
+    `https://wa.me/${site.whatsappNumber}`,
+  ],
+};
+
+// 2. WebSite Schema
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${baseUrl}/#website`,
+  url: baseUrl,
+  name: site.fullName,
+  description: site.subtitle,
+  inLanguage: 'ar-SA',
+  publisher: {
+    '@id': `${baseUrl}/#business`,
+  },
+};
+
+// 3. BreadcrumbList Schema (if breadcrumbs provided)
+const breadcrumbSchema = breadcrumbs.length > 0 ? {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'الرئيسية',
+      item: baseUrl,
+    },
+    ...breadcrumbs.map((crumb, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 2,
+      name: crumb.name,
+      item: new URL(crumb.url, baseUrl).toString(),
+    })),
+  ],
+} : null;
+
+// Combine all valid schemas into JSON-LD
+const allSchemas = [
+  localBusinessSchema,
+  websiteSchema,
+  ...(breadcrumbSchema ? [breadcrumbSchema] : []),
+  ...extraSchemas,
+];
 ---
+
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="theme-color" content="#F5F0E8" />
-<meta name="description" content={description} />
-<meta name="format-detection" content="telephone=yes" />
-<!-- تبقى الفهرسة معطلة حتى اعتماد الدومين وتفعيل إعدادات الإنتاج -->
-{(!indexingEnabled || noindex) && <meta name="robots" content="noindex,nofollow" />}
-{canonical && <link rel="canonical" href={canonical} />}
-<meta property="og:type" content="website" />
-<meta property="og:locale" content="ar_SA" />
-<meta property="og:title" content={title} />
-<meta property="og:description" content={description} />
-{canonical && <meta property="og:url" content={canonical} />}
-{shareImage && <meta property="og:image" content={shareImage} />}
-<meta name="twitter:card" content="summary_large_image" />
-<link rel="icon" href="/favicon.png" type="image/png" />
-<title>{title}</title>
-{schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="theme-color" content="#F8F5EE" />
+  <meta name="format-detection" content="telephone=yes" />
+
+  <!-- Primary Meta Tags -->
+  <title>{title}</title>
+  <meta name="title" content={title} />
+  <meta name="description" content={description} />
+  <meta name="keywords" content={formattedKeywords} />
+  <meta name="author" content={site.fullName} />
+  <meta name="robots" content={robotsContent} />
+  <link rel="canonical" href={canonicalUrl} />
+
+  <!-- Local SEO & Geo Meta Tags (Riyadh, Saudi Arabia) -->
+  <meta name="geo.region" content={site.regionCode} />
+  <meta name="geo.placename" content={site.serviceCity} />
+  <meta name="geo.position" content={`${site.geo.latitude};${site.geo.longitude}`} />
+  <meta name="ICBM" content={`${site.geo.latitude}, ${site.geo.longitude}`} />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content={type} />
+  <meta property="og:locale" content="ar_SA" />
+  <meta property="og:site_name" content={site.fullName} />
+  <meta property="og:url" content={canonicalUrl} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={socialImage} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content={title} />
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={socialImage} />
+  <meta name="twitter:image:alt" content={title} />
+
+  <!-- Favicon and Brand Icons -->
+  <link rel="icon" href="/favicon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/images/arkan-symbol.webp" />
+
+  <!-- Schema.org JSON-LD Structured Data -->
+  {allSchemas.map((schemaObj) => (
+    <script type="application/ld+json" set:html={JSON.stringify(schemaObj)} />
+  ))}
 </head>
-<body><slot /></body>
+<body class="bg-ivory text-charcoal">
+  <slot />
+</body>
 </html>

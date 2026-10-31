@@ -1,10 +1,131 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
-@theme { --font-sans: "Cairo", sans-serif; --color-ivory: #F5F0E8; --color-gold: #C7A775; --color-wood: #6D5340; --color-charcoal: #252525; }
-:root { font-family: var(--font-sans); color: var(--color-charcoal); background-color: var(--color-ivory); font-synthesis: none; }
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { margin: 0; min-width: 320px; }
-a { text-decoration: none; }
-a:focus-visible, button:focus-visible { outline: 3px solid #AA7D42; outline-offset: 3px; }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; } }
+
+@theme {
+  --font-sans: "Cairo", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --color-ivory: #F8F5EE;
+  --color-ivory-light: #FCFAF6;
+  --color-ivory-dark: #ECE4D6;
+  --color-gold: #C5A059;
+  --color-gold-light: #DFBF7E;
+  --color-gold-dark: #9E7B38;
+  --color-wood: #6D5340;
+  --color-wood-light: #8B6E57;
+  --color-wood-dark: #4A3729;
+  --color-charcoal: #211F1D;
+  --color-charcoal-light: #322E2B;
+  --color-charcoal-dark: #151413;
+}
+
+:root {
+  font-family: var(--font-sans);
+  color: var(--color-charcoal);
+  background-color: var(--color-ivory);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background-color: var(--color-ivory);
+  color: var(--color-charcoal);
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+/* Custom Luxury Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F1ECE1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C5A059;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9E7B38;
+}
+
+/* Smooth Image Loading */
+img {
+  content-visibility: auto;
+}
+
+/* Animated Pulse Badge */
+@keyframes subtle-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.65;
+    transform: scale(1.08);
+  }
+}
+
+.animate-pulse-subtle {
+  animation: subtle-pulse 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(109, 83, 64, 0.12);
+}
+
+.glass-panel-dark {
+  background: rgba(33, 31, 29, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(197, 160, 89, 0.25);
+}
+
+/* Subtle Gold Gradient Glow */
+.gold-gradient-bg {
+  background: linear-gradient(135deg, #DFBF7E 0%, #C5A059 50%, #9E7B38 100%);
+}
+
+.gold-border-gradient {
+  border-image: linear-gradient(to right, transparent, #C5A059, transparent) 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

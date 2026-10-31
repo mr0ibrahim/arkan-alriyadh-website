@@ -15,79 +15,307 @@ export const getStaticPaths = (() => {
   }));
 }) satisfies GetStaticPaths;
 
-interface Props { service: Service; }
+interface Props {
+  service: Service;
+}
+
 const { service } = Astro.props;
 const photos: GalleryImage[] = gallery.filter((image) => image.category === service.id);
 const cover = photos[0];
 const others = services.filter((item) => item.id !== service.id);
 const whatsapp = contactLink(service.title);
-const description = `${service.description} تصميم وتنفيذ وتركيب في الرياض، وتوريد المواد لجميع محافظات المملكة. للاستفسار: 0533340982.`;
----
-<MainLayout title={`${service.title} بالرياض | ${site.fullName}`} description={description}>
-  <Header />
-  <main>
-    <nav aria-label="مسار التصفح" class="mx-auto max-w-7xl px-5 pt-7 text-sm text-charcoal/65">
-      <a href="/" class="hover:text-wood">الرئيسية</a><span aria-hidden="true"> / </span>
-      <a href="/#services" class="hover:text-wood">الخدمات</a><span aria-hidden="true"> / </span>
-      <span aria-current="page" class="text-wood">{service.title}</span>
-    </nav>
+const description = `${service.description} تصميم وتنفيذ وتركيب احترافي في الرياض، وتوريد المواد لجميع محافظات المملكة. للاستفسار: 0533340982.`;
 
-    <section class="mx-auto grid max-w-7xl items-center gap-10 px-5 py-12 lg:grid-cols-2 lg:py-20">
-      <div>
-        <p class="mb-4 font-bold text-wood">تصميم وتشطيبات داخلية · الرياض</p>
-        <h1 class="mb-6 text-4xl font-extrabold leading-relaxed text-charcoal md:text-5xl">{service.title}</h1>
-        <p class="mb-4 text-lg font-semibold text-wood">{service.shortDescription}</p>
-        <p class="mb-8 max-w-xl leading-9 text-charcoal/75">{service.description} نراعي طبيعة المساحة وتناسق الخامات والألوان، ونناقش تفاصيل التنفيذ والتشطيب بما يلائم احتياجاتك.</p>
-        <div class="flex flex-wrap gap-3">
-          <a href={whatsapp} target="_blank" rel="noopener noreferrer" class="rounded-full bg-wood px-7 py-4 font-bold text-white transition hover:bg-charcoal">استفسر عن الخدمة عبر واتساب</a>
-          <a href={callLink} class="rounded-full border border-wood px-7 py-4 font-bold text-wood transition hover:bg-wood hover:text-white">اتصل الآن</a>
+const serviceFeatures: Record<string, string[]> = {
+  sheeboard: [
+    'تكسيات خشبية عالية الجودة مقاومة للخدش والرطوبة',
+    'إمكانية دمج الإضاءة الليد المخفية ومنافذ التلفزيون بدقة',
+    'تشكيلة واسعة من الألوان الخشبية الطبيعية والعصرية',
+    'تنفيذ وتركيب على أيدي معلمين مختصين بالرياض',
+  ],
+  parquet: [
+    'أرضيات باركيه ألمانية وبلجيكية متينة وفاخرة',
+    'طبقات حماية متطورة ضد الماء والخدوش والاحتكاك',
+    'عزل حراري وصوتي مريح للمساحات السكنية والتجارية',
+    'تركيب هندسي دقيق مع ضبط الفواصل وتناغم النعلات',
+  ],
+  'fiber-skirting': [
+    'نعلات فايبر وبوليمر مقاومة بنسبة 100% للماء والرطوبة',
+    'مقاومة ممتازة للصدمات والحشرات وسهلة التنظيف',
+    'ارتفاعات وتصاميم متنوعة تناسب كافة أنماط الأرضيات',
+    'قص زوايا ليزري بدقة عالية وتشطيب مخفي للمسامير',
+  ],
+  'foam-mouldings': [
+    'براويز وبانوهات فوم هندسية ناعمة وفاخرة',
+    'توزيعات كلاسيكية ونيوكلاسيكية تضيف عمقاً وفخامة للجدران',
+    'جاهزة للدهان بأي لون ومقاومة للتشقق والحرارة',
+    'تركيب متقن مع معالجة كاملة للفواصل بدقة متناهية',
+  ],
+  painting: [
+    'دهانات داخلية فاخرة (جوتن ومصادر معتمدة)',
+    'تأثيرات ديكورية ملمسية (ستوكو، كونكريت، شامواه، سيلك)',
+    'ثبات عالي للألوان وسهولة في الغسيل والتنظيف',
+    'تأسيس ومعالجة متقنة للحوائط قبل التشطيب النهائي',
+  ],
+};
+
+const currentFeatures = service.features || serviceFeatures[service.id] || [
+  'خامات أصلية وضمان على جودة المواد والتركيب',
+  'تنفيذ مخصص وفق أبعاد ومقاسات موقعك بدقة',
+  'توريد شامل لكافة محافظات ومناطق المملكة',
+  'معاينة واستشارة مخصصة لمشروعك',
+];
+
+const breadcrumbs = [
+  { name: 'الخدمات', url: '/#services' },
+  { name: service.title, url: `/services/${service.id}/` },
+];
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: `${service.title} بالرياض`,
+  description: service.description,
+  serviceType: service.serviceType,
+  category: service.category,
+  provider: {
+    '@id': `${site.defaultUrl}/#business`,
+  },
+  areaServed: [
+    {
+      '@type': 'City',
+      name: 'الرياض',
+      description: 'تنفيذ وتركيب ميداني داخل الرياض',
+    },
+    {
+      '@type': 'Country',
+      name: 'المملكة العربية السعودية',
+      description: 'توريد وشحن المواد لكافة مناطق المملكة',
+    },
+  ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: `مزايا ${service.title}`,
+    itemListElement: currentFeatures.map((feat) => ({
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: feat,
+      },
+    })),
+  },
+};
+---
+
+<MainLayout
+  title={`${service.title} بالرياض | ${site.fullName}`}
+  description={description}
+  keywords={service.keywords}
+  image={cover?.src || '/images/hero-main.webp'}
+  breadcrumbs={breadcrumbs}
+  extraSchemas={[serviceSchema]}
+>
+  <Header />
+
+  <main>
+    <!-- Breadcrumb Bar -->
+    <div class="border-b border-wood/10 bg-ivory/60 py-3.5">
+      <nav aria-label="مسار التصفح" class="mx-auto flex max-w-7xl items-center gap-2 px-4 text-xs font-bold text-charcoal/70 sm:px-6 sm:text-sm">
+        <a href="/" class="transition hover:text-wood">الرئيسية</a>
+        <span aria-hidden="true" class="text-gold">/</span>
+        <a href="/#services" class="transition hover:text-wood">الخدمات</a>
+        <span aria-hidden="true" class="text-gold">/</span>
+        <span aria-current="page" class="font-black text-wood">{service.title}</span>
+      </nav>
+    </div>
+
+    <!-- Service Hero Section -->
+    <section class="relative overflow-hidden bg-ivory py-12 sm:py-16 lg:py-24">
+      <div class="pointer-events-none absolute -left-40 -top-40 h-96 w-96 rounded-full bg-gold/10 blur-3xl" aria-hidden="true"></div>
+
+      <div class="mx-auto grid max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-12 lg:gap-12">
+        <div class="lg:col-span-7">
+          <div class="mb-4 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-white/70 px-4 py-1.5 text-xs font-bold text-wood shadow-xs">
+            <span class="h-1.5 w-1.5 rounded-full bg-gold"></span>
+            <span>تصميم وتنفيذ وتشطيبات راقية · الرياض</span>
+          </div>
+
+          <h1 class="mb-4 text-3xl font-black text-charcoal sm:text-4xl md:text-5xl">
+            {service.title}
+          </h1>
+
+          <p class="mb-5 text-base font-extrabold text-wood sm:text-lg">
+            {service.shortDescription}
+          </p>
+
+          <p class="mb-8 text-base leading-relaxed text-charcoal/80 sm:text-lg sm:leading-loose">
+            {service.description} نحرص في أركان الرياض على مراعاة طبيعة المساحة، وتناسق الخامات والألوان، وضبط استقامة الفواصل، لنمنح المكان لمسة جمالية متكاملة تليق بذوقكم.
+          </p>
+
+          <!-- Key Highlights / Bullets -->
+          <div class="mb-9 grid gap-3 sm:grid-cols-2">
+            {currentFeatures.map((feat) => (
+              <div class="flex items-start gap-2.5 rounded-xl border border-wood/10 bg-white/80 p-3 shadow-2xs">
+                <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-wood/10 text-xs font-black text-wood">
+                  ✓
+                </span>
+                <span class="text-xs font-bold text-charcoal sm:text-sm leading-normal">{feat}</span>
+              </div>
+            ))}
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap items-center gap-4">
+            <a
+              href={whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center gap-2.5 rounded-full bg-[#1A7A4C] px-8 py-4 font-black text-white shadow-md transition duration-200 hover:-translate-y-0.5 hover:bg-[#14603B] hover:shadow-xl"
+            >
+              <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+              </svg>
+              <span>طلب معاينة واستفسار عبر واتساب</span>
+            </a>
+
+            <a
+              href={callLink}
+              class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-wood/40 bg-white px-7 py-3.5 font-black text-wood shadow-xs transition duration-200 hover:border-wood hover:bg-wood hover:text-white"
+            >
+              <span>اتصل مباشرة</span>
+            </a>
+          </div>
         </div>
-      </div>
-      <div class="overflow-hidden rounded-3xl bg-white shadow-lg shadow-wood/10">
-        {cover ? <img onerror="this.onerror=null;this.src='/images/painting-reference.svg'" src={cover.src} alt={cover.alt} width="1100" height="825" decoding="async" fetchpriority="high" class="aspect-[4/3] w-full object-cover" /> : <div class="flex aspect-[4/3] items-center justify-center bg-gold/20 text-wood">صورة توضيحية قيد الإضافة</div>}
+
+        <div class="lg:col-span-5">
+          <div class="overflow-hidden rounded-[2.2rem] border border-white/60 bg-[#ded4c3] shadow-2xl">
+            {cover ? (
+              <img
+                onerror="this.onerror=null;this.src='/images/painting-reference.svg'"
+                src={cover.src}
+                alt={cover.alt}
+                width="1100"
+                height="825"
+                decoding="async"
+                fetchpriority="high"
+                class="aspect-[4/3] w-full object-cover transition duration-700 hover:scale-105"
+              />
+            ) : (
+              <div class="flex aspect-[4/3] items-center justify-center bg-gold/20 font-bold text-wood">
+                صورة توضيحية قيد التحديث
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="bg-white py-16" aria-labelledby="samples-title">
-      <div class="mx-auto max-w-7xl px-5">
-        <p class="mb-3 text-center font-bold text-wood">أفكار وإلهام</p>
-        <h2 id="samples-title" class="mb-4 text-center text-3xl font-extrabold">نماذج {service.title}</h2>
-        <p class="mx-auto mb-9 max-w-3xl text-center leading-8 text-charcoal/65">تعرض هذه الصور تصورات تصميمية للاسترشاد بالخامات والألوان، وليست صورًا لمشروعات منفذة. نحدد تفاصيل التصميم والخامات بعد مناقشة متطلبات مشروعك.</p>
+    <!-- Visual Samples Section -->
+    <section class="border-t border-wood/10 bg-white py-16 lg:py-24" aria-labelledby="samples-title">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6">
+        <div class="mx-auto mb-12 max-w-3xl text-center">
+          <p class="mb-3 inline-flex items-center gap-2 text-sm font-black text-wood">
+            <span class="h-1.5 w-1.5 rounded-full bg-gold"></span>
+            <span>أفكار وإلهام بصري</span>
+          </p>
+          <h2 id="samples-title" class="text-3xl font-black text-charcoal sm:text-4xl">
+            نماذج {service.title}
+          </h2>
+          <p class="mt-4 leading-relaxed text-charcoal/75">
+            تعرض هذه الصور تصورات تصميمية للاسترشاد بتناسق الخامات والألوان، ونقوم بتفصيل المقاسات والتشطيب النهائي بعد معاينة الموقع ومناقشة تفاصيل مشروعك.
+          </p>
+        </div>
+
         {photos.length > 0 ? (
           <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {photos.map((photo) => (
-              <figure class="overflow-hidden rounded-2xl border border-wood/10 bg-ivory">
-                <img onerror="this.onerror=null;this.src='/images/painting-reference.svg'" src={photo.src} alt={photo.alt} loading="lazy" decoding="async" width="1000" height="750" class="aspect-[4/3] w-full object-cover" />
-                <figcaption class="p-5 font-semibold">{photo.title}</figcaption>
+              <figure class="group overflow-hidden rounded-3xl border border-wood/10 bg-ivory shadow-xs transition duration-300 hover:-translate-y-1 hover:border-gold/40 hover:shadow-lg">
+                <div class="aspect-[4/3] overflow-hidden">
+                  <img
+                    onerror="this.onerror=null;this.src='/images/painting-reference.svg'"
+                    src={photo.src}
+                    alt={photo.alt}
+                    loading="lazy"
+                    decoding="async"
+                    width="1000"
+                    height="750"
+                    class="h-full w-full object-cover transition duration-500 group-hover:scale-108"
+                  />
+                </div>
+                <figcaption class="p-5 font-black text-charcoal">
+                  {photo.title}
+                </figcaption>
               </figure>
             ))}
           </div>
-        ) : <p class="text-center text-charcoal/65">ستُضاف نماذج هذه الخدمة لاحقًا.</p>}
+        ) : (
+          <p class="text-center font-bold text-charcoal/70">
+            سيتم إضافة نماذج إضافية لهذه الخدمة قريباً.
+          </p>
+        )}
       </div>
     </section>
 
-    <section class="bg-ivory py-16">
-      <div class="mx-auto max-w-5xl px-5 text-center">
-        <h2 class="mb-5 text-3xl font-extrabold">أين نقدم هذه الخدمة؟</h2>
-        <p class="leading-9 text-charcoal/75">ننفذ ونركّب داخل الرياض، ونتيح توريد المواد لمختلف مناطق المملكة. تُحدّد المعاينة والمقاسات والشحن وفق نطاق العمل والاتفاق.</p>
-        <a href={whatsapp} target="_blank" rel="noopener noreferrer" class="mt-8 inline-block rounded-full bg-wood px-8 py-4 font-bold text-white hover:bg-charcoal">تواصل معنا لطلب {service.title}</a>
+    <!-- Service Scope & Logistics Banner -->
+    <section class="border-t border-wood/10 bg-ivory py-16">
+      <div class="mx-auto max-w-4xl px-4 text-center sm:px-6">
+        <h2 class="mb-4 text-2xl font-black text-charcoal sm:text-3xl">
+          أين نقدم خدمة {service.title}؟
+        </h2>
+        <p class="text-base leading-relaxed text-charcoal/80 sm:text-lg sm:leading-loose">
+          نقدم خدمات التنفيذ والتركيب الميداني المتكامل داخل جميع أحياء مدينة الرياض، مع إمكانية توريد وشحن المواد والخامات الأصلية لكافة مناطق ومحافظات المملكة.
+        </p>
+        <a
+          href={whatsapp}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-8 inline-flex items-center gap-2.5 rounded-full bg-[#1A7A4C] px-8 py-4 font-black text-white shadow-md transition duration-200 hover:bg-[#14603B] hover:shadow-xl"
+        >
+          <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+          </svg>
+          <span>تواصل معنا الآن لطلب {service.title}</span>
+        </a>
       </div>
     </section>
 
-    <section class="bg-white py-16" aria-labelledby="related-heading">
-      <div class="mx-auto max-w-7xl px-5">
-        <h2 id="related-heading" class="mb-8 text-2xl font-extrabold">استكشف خدمات أخرى</h2>
+    <!-- Other Services Grid -->
+    <section class="border-t border-wood/10 bg-white py-16 lg:py-20" aria-labelledby="related-heading">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6">
+        <div class="mb-8 flex items-center justify-between">
+          <h2 id="related-heading" class="text-2xl font-black text-charcoal sm:text-3xl">
+            استكشف خدماتنا الأخرى
+          </h2>
+          <a href="/#services" class="text-sm font-black text-wood hover:underline">
+            عرض الكل ←
+          </a>
+        </div>
+
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {others.map((other) => (
-            <a href={`/services/${other.id}/`} class="rounded-2xl border border-wood/15 bg-ivory p-5 transition hover:border-wood hover:shadow-md">
-              <span class="font-bold text-charcoal">{other.title}</span>
-              <span class="mt-2 block text-sm text-wood">عرض الخدمة ←</span>
+            <a
+              href={`/services/${other.id}/`}
+              class="group flex flex-col justify-between rounded-2xl border border-wood/15 bg-ivory p-5 transition duration-200 hover:-translate-y-1 hover:border-wood hover:shadow-md"
+            >
+              <div>
+                <span class="block text-base font-black text-charcoal group-hover:text-wood">
+                  {other.title}
+                </span>
+                <span class="mt-2 block text-xs text-charcoal/70">
+                  {other.shortDescription}
+                </span>
+              </div>
+              <span class="mt-4 flex items-center gap-1 text-xs font-black text-wood">
+                <span>استعراض الخدمة</span>
+                <span aria-hidden="true">←</span>
+              </span>
             </a>
           ))}
         </div>
       </div>
     </section>
   </main>
+
   <Footer />
   <FloatingContact />
 </MainLayout>

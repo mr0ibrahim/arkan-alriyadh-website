@@ -1,21 +1,109 @@
 ---
-import { contactLink, site } from '../data/site';
+import { contactLink, site, callLink } from '../data/site';
 const heroImage = '/images/hero-main.webp';
 const whatsapp = contactLink();
 ---
-<section id="home" class="bg-ivory">
-  <div class="mx-auto grid max-w-7xl items-center gap-10 px-5 py-12 lg:grid-cols-2 lg:py-20">
-    <div class="order-2 lg:order-1">
-      <p class="mb-5 font-bold text-wood">خبرة 12 عامًا في الديكور الداخلي</p>
-      <h1 class="mb-6 text-4xl leading-[1.6] font-extrabold text-charcoal md:text-5xl">{site.name} <span class="block text-wood">تفاصيل متقنة، ومساحات أجمل</span></h1>
-      <p class="mb-8 max-w-xl leading-9 text-charcoal/75">نصمّم وننفّذ حلول الديكور الداخلي بعناية، من التكسيات الجدارية والباركيه إلى البانوهات والنعلات والدهانات. نخدم مشاريع التنفيذ والتركيب في الرياض، ونوفر توريد المواد إلى أنحاء المملكة.</p>
-      <div class="flex flex-wrap gap-3">
-        <a href={whatsapp} target="_blank" rel="noopener noreferrer" class="rounded-full bg-wood px-7 py-4 font-bold text-white hover:bg-charcoal">تواصل عبر واتساب</a>
-        <a href="/#services" class="rounded-full border border-wood px-7 py-4 font-bold text-wood hover:bg-wood hover:text-white">استكشف خدماتنا</a>
+
+<section id="home" class="relative overflow-hidden bg-ivory py-10 sm:py-16 lg:py-24">
+  <!-- Subtle decorative ambient background gradients -->
+  <div class="pointer-events-none absolute -left-40 -top-40 h-96 w-96 rounded-full bg-gold/10 blur-3xl" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-wood/10 blur-3xl" aria-hidden="true"></div>
+
+  <div class="mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-12 lg:gap-8">
+    <!-- Left / Text Column (takes 7 cols on lg) -->
+    <div class="order-2 lg:order-1 lg:col-span-7">
+      <!-- Experience & Trust Badge -->
+      <div class="mb-6 inline-flex items-center gap-2.5 rounded-full border border-wood/20 bg-white px-4 py-2 text-xs font-black text-wood shadow-xs sm:text-sm">
+        <span class="relative flex h-2.5 w-2.5">
+          <span class="animate-pulse-subtle absolute inline-flex h-full w-full rounded-full bg-gold opacity-75"></span>
+          <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-gold"></span>
+        </span>
+        <span>خبرة تفوق 12 عاماً في هندسة الديكور الداخلي بالرياض</span>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="mb-6 text-3xl font-black leading-[1.3] text-charcoal sm:text-4xl md:text-5xl lg:leading-[1.25]">
+        {site.name}
+        <span class="mt-2 block text-wood">
+          تفاصيل متقنة وفخامة تدوم
+        </span>
+      </h1>
+
+      <!-- Description Paragraph -->
+      <p class="mb-8 max-w-2xl text-base leading-relaxed text-charcoal/80 sm:text-lg sm:leading-loose">
+        نبتكر حلول الديكور والتشطيبات الداخلية المتميزة، من تكسيات الشيبورد الخشبية الحديثة وأرضيات الباركيه إلى البانوهات الأنيقة ونعلات الفايبر وأحدث الدهانات. نقدم خدمات التنفيذ المتقن داخل الرياض، مع إمكانية توريد الخامات لجميع مناطق المملكة.
+      </p>
+
+      <!-- Action Buttons -->
+      <div class="mb-10 flex flex-wrap items-center gap-4">
+        <a
+          href={whatsapp}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center gap-2.5 rounded-full bg-[#1A7A4C] px-8 py-4 text-base font-black text-white shadow-md transition duration-300 hover:-translate-y-0.5 hover:bg-[#14603B] hover:shadow-xl focus-visible:ring-2 focus-visible:ring-gold"
+        >
+          <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+          </svg>
+          <span>استفسر أو اطلب معاينة</span>
+        </a>
+
+        <a
+          href="/#services"
+          class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-wood/40 bg-white px-7 py-3.5 text-base font-black text-wood shadow-xs transition duration-300 hover:border-wood hover:bg-wood hover:text-white"
+        >
+          <span>استكشف خدماتنا</span>
+          <span aria-hidden="true">↓</span>
+        </a>
+      </div>
+
+      <!-- Key Trust Metrics -->
+      <div class="grid grid-cols-3 gap-3 border-t border-wood/15 pt-6 sm:gap-6">
+        <div class="flex flex-col">
+          <span class="text-2xl font-black text-wood sm:text-3xl">+12</span>
+          <span class="text-xs font-semibold text-charcoal/70 sm:text-sm">عاماً من الخبرة</span>
+        </div>
+        <div class="flex flex-col border-r border-wood/15 pr-3 sm:pr-6">
+          <span class="text-2xl font-black text-wood sm:text-3xl">100%</span>
+          <span class="text-xs font-semibold text-charcoal/70 sm:text-sm">توريد للمملكة</span>
+        </div>
+        <div class="flex flex-col border-r border-wood/15 pr-3 sm:pr-6">
+          <span class="text-2xl font-black text-wood sm:text-3xl">الرياض</span>
+          <span class="text-xs font-semibold text-charcoal/70 sm:text-sm">تنفيذ وتركيب متقن</span>
+        </div>
       </div>
     </div>
-    <div class="order-1 overflow-hidden rounded-[2rem] bg-[#dfcfb6] shadow-xl lg:order-2">
-      <img src={heroImage} alt="تصور إلهامي لمجلس أنيق بتفاصيل ديكور وتشطيبات داخلية" width="1000" height="750" fetchpriority="high" decoding="async" class="aspect-[4/3] h-full w-full object-cover lg:aspect-[5/4]" />
+
+    <!-- Right / Visual Column (takes 5 cols on lg) -->
+    <div class="order-1 lg:order-2 lg:col-span-5">
+      <div class="relative mx-auto max-w-lg lg:max-w-none">
+        <div class="relative overflow-hidden rounded-[2.2rem] border border-white bg-[#ded4c3] shadow-2xl">
+          <img
+            src={heroImage}
+            alt="تصور إلهامي لمجلس أنيق بتفاصيل ديكور وتشطيبات داخلية من أركان الرياض"
+            width="1000"
+            height="750"
+            fetchpriority="high"
+            decoding="async"
+            class="aspect-[4/3] h-full w-full object-cover transition duration-700 hover:scale-105 sm:aspect-[5/4]"
+          />
+
+          <!-- Floating Glass Feature Tag on Image -->
+          <div class="absolute bottom-4 right-4 left-4 rounded-2xl border border-white/60 bg-white/95 p-3.5 shadow-lg backdrop-blur-md sm:bottom-6 sm:right-6 sm:left-6">
+            <div class="flex items-center gap-3">
+              <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-wood text-gold">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-xs font-black text-charcoal sm:text-sm">دقة متناهية بالتركيب</span>
+                <span class="text-[11px] font-semibold text-charcoal/70">فنيون ذوو كفاءة عالية وضمان الجودة</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>

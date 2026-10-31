@@ -9,27 +9,131 @@ import DesignGallery from '../components/DesignGallery.astro';
 import OurWork from '../components/OurWork.astro';
 import { services } from '../data/services';
 import { gallery } from '../data/gallery';
-const whatsappUrl = (service: string) => contactLink(service);
+
+const whatsappUrl = (service?: string) => contactLink(service);
+
+const faqs = [
+  {
+    q: 'هل تقدمون خدمات المعاينة ورفع المقاسات داخل مدينة الرياض؟',
+    a: 'نعم، نوفر فريقاً مختصاً لزيارة الموقع، معاينة المساحة، رفع المقاسات الهندسية بدقة، وعرض عينات المواد والكتالوجات لمناقشة أنسب الحلول لديكور مساحتكم.',
+  },
+  {
+    q: 'هل يتوفر لديكم شحن وتوريد مواد الديكور خارج مدينة الرياض؟',
+    a: 'نعم بالتأكيد؛ نوفر خدمة توريد خامات الشيبورد، الباركيه، نعلات الفايبر، وبانوهات الفوم إلى كافة مدن ومحافظات المملكة العربية السعودية بتغليف آمن وسرعة شحن.',
+  },
+  {
+    q: 'ما هي مميزات تكسيات الشيبورد وبماذا تختلف عن الخشب التقليدي؟',
+    a: 'تكسيات الشيبورد تتميز بمقاومتها العالية للخدوش وعوامل الرطوبة، مع ثبات الألوان وتنوع التموجات الخشبية العصرية، وسهولة دمجها مع الإضاءات المخفية وشاشات التلفزيون بدقة هندسية عالية.',
+  },
+  {
+    q: 'هل أرضيات الباركيه ونعلات الفايبر لديكم مقاومة للماء والرطوبة؟',
+    a: 'نعم، نحرص على اختيار باركيه عالي الجودة بطبقات حماية متقدمة ضد الخدش والرطوبة، كما أن نعلات الفايبر تمتاز بمقاومتها الكاملة للمياه ومقاومة الحشرات وسهولة التنظيف.',
+  },
+  {
+    q: 'كم تستغرق عادةً مدة تنفيذ مشاريع الديكور؟',
+    a: 'تعتمد المدة على حجم المساحة وطبيعة الأعمال المطلوبة (تكسيات جدارية، باركيه، بانوهات، دهانات). نلتزم بتقديم جدول زمني محدد ودقيق قبل بدء التنفيذ لضمان التسليم في الوقت المتفق عليه.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.a,
+    },
+  })),
+};
 ---
-<MainLayout title={`${site.fullName} | شيبورد وباركيه ودهانات بالرياض`} description={`${site.fullName}؛ 12 عامًا من الخبرة في الشيبورد والباركيه والبانوهات ونعلات الفايبر والدهانات في الرياض، مع توريد المواد لجميع مناطق المملكة.`}>
+
+<MainLayout
+  title={`${site.fullName} | شيبورد، باركيه، بانوهات، ونعلات فايبر بالرياض`}
+  description={`${site.fullName}؛ 12 عاماً من الخبرة في تنفيذ وتوريد الشيبورد، الباركيه، البانوهات، نعلات الفايبر، والدهانات في الرياض، مع توريد المواد لجميع مناطق المملكة.`}
+  keywords={site.keywords}
+  extraSchemas={[faqSchema]}
+>
   <Header />
+
   <main>
+    <!-- Hero Section -->
     <Hero />
-    <section id="services" class="scroll-mt-24 bg-white py-20" aria-labelledby="services-heading">
-      <div class="mx-auto max-w-7xl px-5">
-        <div class="mb-11 text-center"><p class="mb-3 font-bold text-wood">خدماتنا</p><h2 id="services-heading" class="text-3xl font-extrabold text-charcoal md:text-4xl">حلول ديكور تُنفّذ بعناية</h2><p class="mx-auto mt-4 max-w-2xl leading-8 text-charcoal/65">من الفكرة إلى اللمسة الأخيرة، نختار معك التشطيبات والخامات التي تحقق التوازن بين الجمال والوظيفة.</p></div>
+
+    <!-- Services Section -->
+    <section id="services" class="scroll-mt-24 bg-white py-20 lg:py-28" aria-labelledby="services-heading">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6">
+        <div class="mx-auto mb-14 max-w-3xl text-center">
+          <p class="mb-3 inline-flex items-center gap-2 text-sm font-black text-wood">
+            <span class="h-1.5 w-1.5 rounded-full bg-gold"></span>
+            <span>تخصصاتنا وخدماتنا المتكاملة</span>
+          </p>
+          <h2 id="services-heading" class="text-3xl font-black text-charcoal sm:text-4xl md:text-5xl">
+            حلول ديكور وتشطيبات تُنفّذ بعناية
+          </h2>
+          <p class="mt-4 leading-relaxed text-charcoal/75 sm:text-lg">
+            من الفكرة والتصميم إلى اللمسة الأخيرة، نوفر لك أرقى الخامات العالمية مع تنفيذ احترافي يضمن التناغم بين الفخامة والوظيفة العملية.
+          </p>
+        </div>
+
+        <!-- Services Grid -->
         <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service) => {
             const preview = gallery.find(image => image.category === service.id);
             return (
-              <article class="group flex flex-col overflow-hidden rounded-3xl border border-wood/10 bg-ivory transition hover:-translate-y-1 hover:shadow-xl">
-                {preview ? <img onerror="this.onerror=null;this.src='/images/painting-reference.svg'" src={preview.src} alt={preview.alt} width="1000" height="750" loading="lazy" decoding="async" class="aspect-[4/3] w-full object-cover" /> : <div class="aspect-[4/3] bg-gold/20" />}
-                <div class="flex flex-1 flex-col p-6">
-                  <p class="mb-2 text-xs font-bold text-wood">{service.shortDescription}</p>
-                  <h3 class="mb-3 text-xl font-extrabold text-charcoal"><a href={`/services/${service.id}/`} class="hover:text-wood focus-visible:underline">{service.title}</a></h3>
-                  <p class="mb-5 flex-1 leading-8 text-charcoal/70">{service.description}</p>
-                  <a href={`/services/${service.id}/`} class="mb-4 w-fit text-sm font-extrabold text-wood underline underline-offset-4">تفاصيل الخدمة ←</a>
-                  <a href={whatsappUrl(service.title)} target="_blank" rel="noopener noreferrer" class="w-fit border-b border-wood pb-1 font-bold text-wood hover:text-charcoal">استفسر عن الخدمة ←</a>
+              <article class="group flex flex-col overflow-hidden rounded-3xl border border-wood/10 bg-ivory transition-all duration-300 hover:-translate-y-1.5 hover:border-gold/40 hover:shadow-xl">
+                <div class="relative aspect-[4/3] w-full overflow-hidden bg-[#ded4c3]">
+                  {preview ? (
+                    <img
+                      onerror="this.onerror=null;this.src='/images/painting-reference.svg'"
+                      src={preview.src}
+                      alt={preview.alt}
+                      width="1000"
+                      height="750"
+                      loading="lazy"
+                      decoding="async"
+                      class="h-full w-full object-cover transition duration-500 group-hover:scale-108"
+                    />
+                  ) : (
+                    <div class="flex h-full w-full items-center justify-center bg-gold/20 text-wood">صورة توضيحية</div>
+                  )}
+                  <div class="absolute top-3 right-3 rounded-full bg-charcoal/90 px-3 py-1 text-xs font-black text-white backdrop-blur-xs">
+                    {service.shortDescription}
+                  </div>
+                </div>
+
+                <div class="flex flex-1 flex-col p-6 sm:p-7">
+                  <h3 class="mb-3 text-xl font-black text-charcoal transition group-hover:text-wood">
+                    <a href={`/services/${service.id}/`} class="focus-visible:underline">
+                      {service.title}
+                    </a>
+                  </h3>
+                  <p class="mb-6 flex-1 text-sm leading-relaxed text-charcoal/75 sm:text-base sm:leading-loose">
+                    {service.description}
+                  </p>
+
+                  <div class="flex items-center justify-between border-t border-wood/15 pt-4">
+                    <a
+                      href={`/services/${service.id}/`}
+                      class="inline-flex items-center gap-1.5 text-xs font-black text-wood transition hover:text-charcoal sm:text-sm"
+                    >
+                      <span>تفاصيل الخدمة</span>
+                      <span aria-hidden="true">←</span>
+                    </a>
+
+                    <a
+                      href={whatsappUrl(service.title)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="inline-flex items-center gap-1.5 rounded-full bg-[#1A7A4C] px-3.5 py-1.5 text-xs font-black text-white shadow-xs transition duration-200 hover:bg-[#14603B] hover:shadow-md"
+                    >
+                      <svg class="h-3.5 w-3.5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+                      </svg>
+                      <span>استفسر واتساب</span>
+                    </a>
+                  </div>
                 </div>
               </article>
             );
@@ -37,11 +141,223 @@ const whatsappUrl = (service: string) => contactLink(service);
         </div>
       </div>
     </section>
+
+    <!-- Why Us Section (لماذا نحن؟) -->
+    <section id="why-us" class="scroll-mt-24 border-t border-wood/10 bg-ivory py-20 lg:py-28" aria-labelledby="why-us-heading">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6">
+        <div class="mx-auto mb-16 max-w-3xl text-center">
+          <p class="mb-3 inline-flex items-center gap-2 text-sm font-black text-wood">
+            <span class="h-1.5 w-1.5 rounded-full bg-gold"></span>
+            <span>معايير التميز في أركان الرياض</span>
+          </p>
+          <h2 id="why-us-heading" class="text-3xl font-black text-charcoal sm:text-4xl md:text-5xl">
+            لماذا يختار عملاؤنا أركان الرياض؟
+          </h2>
+          <p class="mt-4 leading-relaxed text-charcoal/75 sm:text-lg">
+            نجمع بين الخبرة الطويلة والحرفية الهندسية لنضمن لك تشطيباً يرقى إلى أعلى التوقعات ويبقى جميلاً عبر السنين.
+          </p>
+        </div>
+
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <!-- Pillar 1 -->
+          <div class="group rounded-3xl border border-wood/10 bg-white p-7 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-gold/50 hover:shadow-lg">
+            <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-ivory text-wood transition group-hover:bg-wood group-hover:text-white">
+              <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+            </div>
+            <h3 class="mb-3 text-lg font-black text-charcoal">خبرة تنفيذية تفوق 12 عاماً</h3>
+            <p class="text-sm leading-relaxed text-charcoal/75">
+              سجل حافل بالمشاريع المنفذة بنجاح في الفلل والقصور والشقق والمكاتب الراقية بالرياض.
+            </p>
+          </div>
+
+          <!-- Pillar 2 -->
+          <div class="group rounded-3xl border border-wood/10 bg-white p-7 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-gold/50 hover:shadow-lg">
+            <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-ivory text-wood transition group-hover:bg-wood group-hover:text-white">
+              <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+              </svg>
+            </div>
+            <h3 class="mb-3 text-lg font-black text-charcoal">خامات أصلية وضمان معتمد</h3>
+            <p class="text-sm leading-relaxed text-charcoal/75">
+              نوفر ألواح شيبورد وباركيه ونعلات فايبر وبانوهات من أفضل المصادر العالمية والمحلية المقاومة للرطوبة.
+            </p>
+          </div>
+
+          <!-- Pillar 3 -->
+          <div class="group rounded-3xl border border-wood/10 bg-white p-7 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-gold/50 hover:shadow-lg">
+            <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-ivory text-wood transition group-hover:bg-wood group-hover:text-white">
+              <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 class="mb-3 text-lg font-black text-charcoal">التزام دقيق بالمواعيد</h3>
+            <p class="text-sm leading-relaxed text-charcoal/75">
+              احترام كامل للجدول الزمني وتسليم نظيف ومتقن للموقع دون تأخير أو إهدار لوقت العميل.
+            </p>
+          </div>
+
+          <!-- Pillar 4 -->
+          <div class="group rounded-3xl border border-wood/10 bg-white p-7 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-gold/50 hover:shadow-lg">
+            <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-ivory text-wood transition group-hover:bg-wood group-hover:text-white">
+              <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 class="mb-3 text-lg font-black text-charcoal">توريد لجميع مدن المملكة</h3>
+            <p class="text-sm leading-relaxed text-charcoal/75">
+              تنفيذ وتركيب بالرياض وشحن وتوريد سريع وآمن لكافة محافظات ومناطق المملكة.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Workflow / Process Steps (خطوات العمل) -->
+    <section class="border-t border-wood/10 bg-white py-20 lg:py-28" aria-labelledby="process-heading">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6">
+        <div class="mx-auto mb-16 max-w-3xl text-center">
+          <p class="mb-3 inline-flex items-center gap-2 text-sm font-black text-wood">
+            <span class="h-1.5 w-1.5 rounded-full bg-gold"></span>
+            <span>من الفكرة إلى التسليم المتقن</span>
+          </p>
+          <h2 id="process-heading" class="text-3xl font-black text-charcoal sm:text-4xl md:text-5xl">
+            كيف نعمل على مشروعك؟
+          </h2>
+          <p class="mt-4 leading-relaxed text-charcoal/75 sm:text-lg">
+            خطوات منظمة ومدروسة تضمن لك راحة البال ودقة التنفيذ منذ أول اتصال وحتى استلام الموقع.
+          </p>
+        </div>
+
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <!-- Step 1 -->
+          <div class="relative flex flex-col rounded-3xl border border-wood/10 bg-ivory p-7">
+            <span class="mb-4 text-3xl font-black text-wood">01</span>
+            <h3 class="mb-2 text-lg font-black text-charcoal">الاستشارة والاستفسار</h3>
+            <p class="text-sm leading-relaxed text-charcoal/75">
+              تتواصل معنا لمناقشة فكرة المشروع والمساحة والخدمات المطلوبة مع تقديم النصائح الأولية.
+            </p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="relative flex flex-col rounded-3xl border border-wood/10 bg-ivory p-7">
+            <span class="mb-4 text-3xl font-black text-wood">02</span>
+            <h3 class="mb-2 text-lg font-black text-charcoal">المعاينة ورفع المقاسات</h3>
+            <p class="text-sm leading-relaxed text-charcoal/75">
+              زيارة الموقع وفحص استواء الجدران والأرضيات وأخذ المقاسات الهندسية الدقيقة بالليزر.
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="relative flex flex-col rounded-3xl border border-wood/10 bg-ivory p-7">
+            <span class="mb-4 text-3xl font-black text-wood">03</span>
+            <h3 class="mb-2 text-lg font-black text-charcoal">اعتماد التصميم والخامات</h3>
+            <p class="text-sm leading-relaxed text-charcoal/75">
+              اختيار الألوان، الأنماط، درجات الشيبورد أو الباركيه، وتحديد جدول زمني محدد للتنفيذ.
+            </p>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="relative flex flex-col rounded-3xl border border-wood/10 bg-ivory p-7">
+            <span class="mb-4 text-3xl font-black text-wood">04</span>
+            <h3 class="mb-2 text-lg font-black text-charcoal">التنفيذ والتسليم بضمان</h3>
+            <p class="text-sm leading-relaxed text-charcoal/75">
+              تنفيذ احترافي بواسطة فنيين ذوي خبرة عالية، يليه فحص الجودة والتسليم النظيف للموقع.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Our Work Showcase (Compact) -->
     <OurWork compact />
+
+    <!-- Design Gallery (Inspiration) -->
     <DesignGallery />
-    <section class="bg-white py-16"><div class="mx-auto max-w-7xl px-5 text-center"><p class="mb-3 font-bold text-wood">نطاق خدماتنا</p><h2 class="mb-4 text-3xl font-extrabold">تنفيذ وتركيب في الرياض، وتوريد لمختلف مناطق المملكة</h2><p class="leading-8 text-charcoal/70">نقدّم خدمات التصميم والتنفيذ والتركيب داخل الرياض، مع إمكانية توريد المواد إلى مختلف مناطق المملكة. ننسّق المعاينة والمقاسات وخيارات التوريد وفق متطلبات كل مشروع.</p></div></section>
-    <section id="contact" class="scroll-mt-24 bg-ivory py-20"><div class="mx-auto max-w-4xl px-5 text-center"><p class="mb-3 font-bold text-wood">تواصل معنا</p><h2 class="mb-6 text-3xl font-extrabold">لنحوّل فكرتك إلى مساحة متقنة</h2><p class="mb-8 leading-8 text-charcoal/70">أخبرنا بطبيعة المساحة والتشطيب الذي تتطلع إليه، وسنناقش معك الحلول المناسبة من حيث التصميم والخامات والتنفيذ.</p><div class="flex flex-wrap justify-center gap-3"><a href={whatsappUrl('الديكور الداخلي')} target="_blank" rel="noopener noreferrer" class="rounded-full bg-wood px-8 py-4 font-bold text-white hover:bg-charcoal">تواصل عبر واتساب</a><a href={callLink} class="rounded-full border border-wood px-8 py-4 font-bold text-wood hover:bg-wood hover:text-white">اتصل الآن</a></div></div></section>
+
+    <!-- FAQ Section (الأسئلة الشائعة) -->
+    <section id="faq" class="scroll-mt-24 border-t border-wood/10 bg-ivory py-20 lg:py-28" aria-labelledby="faq-heading">
+      <div class="mx-auto max-w-4xl px-4 sm:px-6">
+        <div class="mx-auto mb-14 text-center">
+          <p class="mb-3 inline-flex items-center gap-2 text-sm font-black text-wood">
+            <span class="h-1.5 w-1.5 rounded-full bg-gold"></span>
+            <span>كل ما تحتاج معرفته</span>
+          </p>
+          <h2 id="faq-heading" class="text-3xl font-black text-charcoal sm:text-4xl md:text-5xl">
+            الأسئلة الأكثر شيوعاً
+          </h2>
+          <p class="mt-4 leading-relaxed text-charcoal/75 sm:text-lg">
+            إجابات واضحة عن خدماتنا، طريقة المعاينة، الشحن والتوريد، والضمان.
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          {faqs.map((faq, index) => (
+            <details class="group rounded-2xl border border-wood/15 bg-white p-5 shadow-xs transition duration-200 open:border-wood/40 open:shadow-md sm:p-6">
+              <summary class="flex cursor-pointer items-center justify-between gap-4 font-black text-charcoal group-open:text-wood">
+                <span class="text-base sm:text-lg">{faq.q}</span>
+                <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-ivory text-wood transition duration-200 group-open:rotate-180 group-open:bg-wood group-open:text-white">
+                  ↓
+                </span>
+              </summary>
+              <div class="mt-4 border-t border-wood/10 pt-4 text-sm leading-loose text-charcoal/80 sm:text-base">
+                {faq.a}
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact & Consultation CTA Section -->
+    <section id="contact" class="scroll-mt-24 border-t border-wood/10 bg-white py-20 lg:py-28" aria-labelledby="contact-heading">
+      <div class="mx-auto max-w-5xl px-4 sm:px-6">
+        <div class="relative overflow-hidden rounded-[2.5rem] bg-charcoal p-8 text-white shadow-2xl sm:p-12 lg:p-16">
+          <div class="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-gold/15 blur-3xl" aria-hidden="true"></div>
+          <div class="pointer-events-none absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-wood/25 blur-3xl" aria-hidden="true"></div>
+
+          <div class="relative z-10 mx-auto max-w-3xl text-center">
+            <p class="mb-3 inline-flex items-center gap-2 text-sm font-black text-gold">
+              <span class="h-1.5 w-1.5 rounded-full bg-gold"></span>
+              <span>جاهزون لبدء مشروعك القادم</span>
+            </p>
+            <h2 id="contact-heading" class="mb-6 text-3xl font-black leading-tight text-white sm:text-4xl md:text-5xl">
+              لنحوّل أفكارك إلى مساحة استثنائية
+            </h2>
+            <p class="mb-10 text-base leading-relaxed text-white/80 sm:text-lg">
+              تواصل معنا الآن لمناقشة احتياجاتك وتحديد موعد المعاينة واختيار أنسب الخامات لمساحتك في الرياض أو لطلب التوريد لأي منطقة بالمملكة.
+            </p>
+
+            <div class="flex flex-wrap items-center justify-center gap-4">
+              <a
+                href={whatsappUrl('طلب معاينة واستشارة ديكور')}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center justify-center gap-3 rounded-full bg-[#1A7A4C] px-8 py-4 text-base font-black text-white shadow-lg transition duration-300 hover:bg-[#14603B] hover:shadow-xl"
+              >
+                <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+                </svg>
+                <span>تواصل عبر واتساب فوراً</span>
+              </a>
+
+              <a
+                href={callLink}
+                class="inline-flex items-center justify-center gap-2.5 rounded-full border-2 border-white/30 bg-white/10 px-8 py-4 text-base font-black text-white backdrop-blur-xs transition duration-300 hover:border-gold hover:bg-gold/20 hover:text-gold"
+              >
+                <svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                <span>اتصال هاتفي: {site.phoneDisplay}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
+
   <Footer />
   <FloatingContact />
 </MainLayout>

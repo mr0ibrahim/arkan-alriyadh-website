@@ -1,6 +1,25 @@
 import type { APIRoute } from 'astro';
+import { site } from '../data/site';
+
 export const GET: APIRoute = () => {
- const base=import.meta.env.PUBLIC_ALLOW_INDEXING === 'true' ? import.meta.env.PUBLIC_SITE_URL?.replace(/\/$/,'') : undefined;
- const content=base?`User-agent: *\nAllow: /\nSitemap: ${base}/sitemap.xml\n`:'User-agent: *\nDisallow: /\n';
- return new Response(content,{headers:{'Content-Type':'text/plain; charset=utf-8'}});
+  const isProductionIndexing = import.meta.env.PUBLIC_ALLOW_INDEXING === 'true';
+  const envUrl = import.meta.env.PUBLIC_SITE_URL?.replace(/\/$/, '');
+  const base = envUrl || site.defaultUrl;
+
+  const content = isProductionIndexing
+    ? `User-agent: *
+Allow: /
+Disallow: /404.html
+
+Sitemap: ${base}/sitemap.xml
+`
+    : `User-agent: *
+Disallow: /
+`;
+
+  return new Response(content, {
+    headers: {
+      'Content-Type': 'text/plain; charset=utf-8',
+    },
+  });
 };

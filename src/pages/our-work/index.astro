@@ -4,15 +4,92 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import FloatingContact from '../../components/FloatingContact.astro';
 import OurWork from '../../components/OurWork.astro';
-import { site } from '../../data/site';
+import { site, contactLink } from '../../data/site';
+
+const whatsapp = contactLink('معرض الأعمال المنفذة');
+
+const breadcrumbs = [
+  { name: 'أعمالنا المنفذة', url: '/our-work/' },
+];
+
+const portfolioSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'معرض أعمال أركان الرياض للديكور والتشطيبات',
+  description: 'معرض صور موثقة لمشاريع الشيبورد، الباركيه، نعلات الفايبر، براويز الفوم، والدهانات المنفذة في الرياض.',
+  url: `${site.defaultUrl}/our-work/`,
+};
 ---
-<MainLayout title={`أعمالنا في الديكور والتشطيبات | ${site.fullName}`} description="اكتشف نماذج من أعمالنا في الديكور الداخلي: التكسيات الجدارية، الباركيه، النعلات والبراويز الجدارية، إلى جانب لقطات من مراحل التنفيذ.">
+
+<MainLayout
+  title={`أعمالنا المنفذة في الديكور والتشطيبات | ${site.fullName}`}
+  description="اكتشف معرض صور مشاريعنا الموثقة في الديكور الداخلي بالرياض: تكسيات الشيبورد، أرضيات الباركيه، نعلات الفايبر، براويز وبانوهات الفوم، والدهانات الديكورية."
+  keywords={[
+    'معرض اعمال ديكور الرياض',
+    'صور شيبورد الرياض',
+    'مشاريع باركيه منفذة',
+    'صور بانوهات فوم',
+    'اعمال نعلات فايبر بالرياض',
+    'تشطيبات ديكور داخلية',
+  ]}
+  image="/images/our-work/work-01.webp"
+  breadcrumbs={breadcrumbs}
+  extraSchemas={[portfolioSchema]}
+>
   <Header />
+
   <main>
-    <section class="border-b border-wood/10 bg-ivory py-16 md:py-20"><div class="mx-auto max-w-7xl px-5"><nav class="mb-6 text-sm text-wood" aria-label="مسار الصفحة"><a href="/" class="underline underline-offset-4">الرئيسية</a><span aria-hidden="true"> / </span><span>أعمالنا</span></nav><p class="font-bold text-wood">تفاصيل تصنع الفرق</p><h1 class="mt-3 text-4xl font-extrabold text-charcoal md:text-5xl">أعمال نفخر بتفاصيلها</h1><p class="mt-5 max-w-3xl leading-8 text-charcoal/70">نستعرض مجموعة من تطبيقات الديكور والتشطيبات الداخلية، حيث تلتقي جودة التنفيذ بتناسق الخامات. اختر نوع الخدمة لاستعراض الصور، واضغط على أي عمل لمشاهدة تفاصيله عن قرب.</p></div></section>
+    <!-- Page Header Section -->
+    <section class="relative overflow-hidden border-b border-wood/10 bg-ivory py-16 sm:py-20 lg:py-24">
+      <div class="pointer-events-none absolute -left-32 -top-32 h-80 w-80 rounded-full bg-gold/10 blur-3xl" aria-hidden="true"></div>
+
+      <div class="mx-auto max-w-7xl px-4 sm:px-6">
+        <nav class="mb-6 flex items-center gap-2 text-xs font-bold text-wood sm:text-sm" aria-label="مسار الصفحة">
+          <a href="/" class="transition hover:underline hover:text-charcoal">الرئيسية</a>
+          <span aria-hidden="true" class="text-gold">/</span>
+          <span class="text-charcoal">أعمالنا المنفذة</span>
+        </nav>
+
+        <p class="mb-3 inline-flex items-center gap-2 text-sm font-black text-wood">
+          <span class="h-1.5 w-1.5 rounded-full bg-gold"></span>
+          <span>توثيق حقيقي من واقع مشاريعنا</span>
+        </p>
+
+        <h1 class="text-3xl font-black text-charcoal sm:text-4xl md:text-5xl">
+          أعمال نفخر بإتقان تفاصيلها
+        </h1>
+
+        <p class="mt-4 max-w-3xl text-base leading-relaxed text-charcoal/75 sm:text-lg sm:leading-loose">
+          نستعرض معكم مجموعة من تطبيقات الديكور والتشطيبات الداخلية المنفذة بعناية، حيث تلتقي دقة الفنيين المهرة مع جودة الخامات المختارة. يمكنك تصفية الأعمال حسب نوع الخدمة واستعراض التفاصيل عن قرب.
+        </p>
+      </div>
+    </section>
+
+    <!-- Full Our Work Grid with Filters -->
     <OurWork />
-    <section class="bg-ivory py-12 text-center"><a href="/#contact" class="inline-flex rounded-full bg-wood px-8 py-4 font-extrabold text-white">ابدأ معنا تفاصيل مشروعك ←</a></section>
+
+    <!-- Bottom CTA Card -->
+    <section class="border-t border-wood/10 bg-ivory py-16 text-center">
+      <div class="mx-auto max-w-3xl px-4">
+        <h2 class="mb-4 text-2xl font-black text-charcoal sm:text-3xl">
+          أعجبك أحد النماذج وترغب بتنفيذه في مساحتك؟
+        </h2>
+        <p class="mb-8 leading-relaxed text-charcoal/75">
+          أرسل لنا لقطة الشاشة أو رقم العمل وسنقوم بمناقشة المقاسات والخيارات المناسبة لمساحتك وتقديم عرض تفصيلي.
+        </p>
+        <a
+          href={whatsapp}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center gap-3 rounded-full bg-wood px-8 py-4 font-black text-white shadow-md transition duration-200 hover:-translate-y-0.5 hover:bg-charcoal hover:shadow-xl"
+        >
+          <span>تواصل معنا لبدء مشروعك</span>
+          <span aria-hidden="true">←</span>
+        </a>
+      </div>
+    </section>
   </main>
+
   <Footer />
   <FloatingContact />
 </MainLayout>

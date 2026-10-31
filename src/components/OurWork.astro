@@ -4,56 +4,176 @@ interface Props { compact?: boolean }
 const { compact = false } = Astro.props;
 const items = compact ? workItems.filter(x => x.status === 'مكتمل').slice(0, 6) : workItems;
 ---
-<section id="our-work" class:list={["relative scroll-mt-28 overflow-hidden border-t border-wood/10 py-24 md:py-28", compact ? "bg-ivory" : "bg-white"]} aria-labelledby="our-work-heading">
-  <div class="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-l from-transparent via-gold/70 to-transparent" aria-hidden="true"></div>
-  <div class="mx-auto max-w-7xl px-5">
+
+<section id="our-work" class:list={["relative scroll-mt-24 overflow-hidden border-t border-wood/10 py-20 lg:py-28", compact ? "bg-ivory" : "bg-white"]} aria-labelledby="our-work-heading">
+  <!-- Subtle top accent line -->
+  <div class="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-gold to-transparent" aria-hidden="true"></div>
+
+  <div class="mx-auto max-w-7xl px-4 sm:px-6">
     <div class="mb-12 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
       <div class="max-w-2xl">
-        <p class="mb-3 inline-flex items-center gap-3 text-sm font-extrabold text-wood"><span class="h-px w-9 bg-gold"></span>خبرتنا في التنفيذ</p>
-        <h2 id="our-work-heading" class="text-3xl font-extrabold leading-snug text-charcoal md:text-5xl">من أعمالنا <span class="text-wood">وتفاصيل تنفيذنا</span></h2>
-        <p class="mt-5 leading-8 text-charcoal/70">تعرّف على نماذج من أعمال الديكور والتشطيبات، من تكسيات الجدران وأرضيات الباركيه إلى البانوهات والنعلات. نهتم بتناسق الخامات ودقة التفاصيل لنمنح كل مساحة طابعها الخاص.</p>
+        <p class="mb-3 inline-flex items-center gap-2 text-sm font-black text-wood">
+          <span class="h-1.5 w-1.5 rounded-full bg-gold"></span>
+          <span>خبرتنا الموثقة على أرض الواقع</span>
+        </p>
+        <h2 id="our-work-heading" class="text-3xl font-black leading-tight text-charcoal sm:text-4xl md:text-5xl">
+          من أعمالنا <span class="bg-gradient-to-l from-wood to-gold bg-clip-text text-transparent">ودقة تنفيذنا</span>
+        </h2>
+        <p class="mt-4 leading-relaxed text-charcoal/75 sm:text-lg">
+          تعرّف على نماذج حقيقية من مشاريع الديكور والتشطيبات بالرياض، من تكسيات الشيبورد وبانوهات الفوم إلى أرضيات الباركيه ونعلات الفايبر والدهانات الديكورية الفاخرة.
+        </p>
       </div>
-      {compact && <a href="/our-work/" class="inline-flex shrink-0 items-center gap-2 rounded-full border border-wood/40 px-6 py-3 font-extrabold text-wood transition hover:bg-wood hover:text-white">استكشف معرض أعمالنا <span aria-hidden="true">↗</span></a>}
+
+      {compact && (
+        <a
+          href="/our-work/"
+          class="inline-flex shrink-0 items-center gap-2 rounded-full border-2 border-wood/30 bg-white/70 px-6 py-3 text-sm font-black text-wood backdrop-blur-xs transition duration-200 hover:border-wood hover:bg-wood hover:text-white hover:shadow-md"
+        >
+          <span>استكشف كافة الأعمال (20+ صورة)</span>
+          <span aria-hidden="true">←</span>
+        </a>
+      )}
     </div>
-    {!compact && <div class="mb-9 flex flex-wrap gap-2" role="group" aria-label="تصفية الأعمال حسب الخدمة">
-      {workCategories.map(category => <button type="button" data-work-filter={category.id} aria-pressed={category.id === 'all' ? 'true' : 'false'} class="work-filter rounded-full border border-wood/25 px-4 py-2 text-sm font-bold text-wood transition hover:bg-wood hover:text-white aria-pressed:bg-wood aria-pressed:text-white">{category.label}</button>)}
-    </div>}
-    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-work-grid>
+
+    {!compact && (
+      <div class="mb-10 flex flex-wrap gap-2 sm:gap-3" role="group" aria-label="تصفية الأعمال حسب الخدمة">
+        {workCategories.map(category => (
+          <button
+            type="button"
+            data-work-filter={category.id}
+            aria-pressed={category.id === 'all' ? 'true' : 'false'}
+            class="work-filter rounded-full border border-wood/25 bg-ivory/60 px-5 py-2.5 text-xs font-black text-charcoal transition-all duration-200 hover:border-wood hover:bg-wood hover:text-white aria-pressed:border-wood aria-pressed:bg-wood aria-pressed:text-white aria-pressed:shadow-md sm:text-sm"
+          >
+            {category.label}
+          </button>
+        ))}
+      </div>
+    )}
+
+    <!-- Work Cards Grid -->
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-work-grid>
       {items.map((item, index) => (
-        <article data-work-category={item.category} class="work-card group overflow-hidden rounded-[1.6rem] border border-wood/10 bg-ivory shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-          <button type="button" data-work-open data-src={item.src} data-title={item.title} class="block w-full cursor-zoom-in text-right focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-wood" aria-label={`تكبير الصورة: ${item.title}`}>
-            <div class="relative overflow-hidden bg-[#ddd2c3]">
-              <img src={item.src} alt={item.title} width={item.width} height={item.height} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" class="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105" />
-              {item.status === 'قيد التنفيذ' && <span class="absolute bottom-3 right-3 rounded-full bg-charcoal/85 px-3 py-1 text-xs font-bold text-white">أثناء التنفيذ</span>}
+        <article
+          data-work-category={item.category}
+          class="work-card group overflow-hidden rounded-3xl border border-wood/10 bg-white shadow-xs transition-all duration-300 hover:-translate-y-1.5 hover:border-gold/40 hover:shadow-xl"
+        >
+          <button
+            type="button"
+            data-work-open
+            data-src={item.src}
+            data-title={item.title}
+            class="relative block aspect-[4/3] w-full cursor-zoom-in overflow-hidden text-right focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-wood"
+            aria-label={`تكبير الصورة: ${item.title}`}
+          >
+            <img
+              src={item.src}
+              alt={item.title}
+              width={item.width}
+              height={item.height}
+              loading={index < 3 ? 'eager' : 'lazy'}
+              decoding="async"
+              class="h-full w-full object-cover transition duration-700 group-hover:scale-108"
+            />
+
+            <!-- Status Tag Badge -->
+            <div class="absolute top-3 right-3 flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-black shadow-md backdrop-blur-md">
+              {item.status === 'مكتمل' ? (
+                <span class="inline-flex items-center gap-1 rounded-full bg-emerald-950/85 text-emerald-200 px-3 py-1">
+                  <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+                  <span>مشروع مكتمل</span>
+                </span>
+              ) : (
+                <span class="inline-flex items-center gap-1 rounded-full bg-amber-950/85 text-amber-200 px-3 py-1">
+                  <span class="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+                  <span>مرحلة التنفيذ</span>
+                </span>
+              )}
+            </div>
+
+            <!-- Gradient hover overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 flex items-end p-5">
+              <span class="inline-flex items-center gap-2 rounded-full bg-white/95 px-3.5 py-1.5 text-xs font-black text-charcoal shadow-sm">
+                <svg class="h-3.5 w-3.5 text-wood" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                </svg>
+                <span>معاينة تفاصيل العمل</span>
+              </span>
             </div>
           </button>
-          <div class="flex items-center justify-between gap-3 p-5"><h3 class="font-extrabold leading-7 text-charcoal">{item.title}</h3><span aria-hidden="true" class="text-lg text-wood">↗</span></div>
+
+          <div class="flex items-center justify-between gap-3 p-5">
+            <h3 class="font-black text-charcoal sm:text-lg">{item.title}</h3>
+            <span aria-hidden="true" class="flex h-8 w-8 items-center justify-center rounded-full bg-ivory text-wood transition group-hover:bg-wood group-hover:text-white">
+              ←
+            </span>
+          </div>
         </article>
       ))}
     </div>
-    <p data-work-empty class="mt-8 hidden text-center text-charcoal/70" role="status">لا توجد صور ضمن هذا التصنيف حاليًا.</p>
-    {compact && <div class="mt-10 text-center"><a href="/our-work/" class="inline-flex rounded-full bg-wood px-8 py-4 font-extrabold text-white transition hover:bg-charcoal">شاهد جميع أعمالنا ←</a></div>}
+
+    <p data-work-empty class="mt-8 hidden text-center font-bold text-charcoal/70" role="status">
+      لا توجد مشاريع مسجلة في هذا التصنيف حالياً.
+    </p>
+
+    {compact && (
+      <div class="mt-12 text-center">
+        <a
+          href="/our-work/"
+          class="inline-flex items-center gap-2 rounded-full bg-wood px-8 py-4 font-black text-white shadow-md transition duration-200 hover:-translate-y-0.5 hover:bg-charcoal hover:shadow-xl"
+        >
+          <span>مشاهدة جميع أعمالنا المنفذة</span>
+          <span aria-hidden="true">←</span>
+        </a>
+      </div>
+    )}
   </div>
-  <dialog data-work-dialog aria-label="معاينة صورة من الأعمال" class="m-auto max-h-[95vh] w-[min(96vw,1100px)] rounded-2xl bg-white p-3 shadow-2xl backdrop:bg-black/85">
-    <div class="mb-3 flex items-center justify-between gap-3 px-2"><strong data-work-caption class="text-sm text-charcoal"></strong><button data-work-close class="rounded-full bg-ivory px-4 py-2 font-bold text-wood" type="button">إغلاق ×</button></div>
-    <img data-work-large alt="" class="max-h-[80vh] w-full rounded-lg object-contain" />
+
+  <!-- Fullscreen Modal Dialog -->
+  <dialog
+    data-work-dialog
+    aria-label="معاينة صورة من الأعمال"
+    class="m-auto max-h-[94vh] w-[min(95vw,1100px)] rounded-3xl border border-white/20 bg-charcoal/95 p-4 text-white shadow-2xl backdrop:bg-black/85 backdrop:backdrop-blur-sm"
+  >
+    <div class="mb-3 flex items-center justify-between gap-3 px-2">
+      <strong data-work-caption class="text-sm font-black text-gold sm:text-base"></strong>
+      <button
+        data-work-close
+        class="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 hover:text-gold"
+        type="button"
+        aria-label="إغلاق المعاينة"
+      >
+        ✕
+      </button>
+    </div>
+    <div class="overflow-hidden rounded-2xl bg-black/40">
+      <img data-work-large alt="" class="max-h-[78vh] w-full object-contain" />
+    </div>
   </dialog>
 </section>
+
 <script>
   document.querySelectorAll<HTMLElement>('#our-work').forEach(root => {
     const filters = root.querySelectorAll<HTMLButtonElement>('[data-work-filter]');
     const cards = root.querySelectorAll<HTMLElement>('[data-work-category]');
     const empty = root.querySelector<HTMLElement>('[data-work-empty]');
+
     filters.forEach(filter => filter.addEventListener('click', () => {
       const value = filter.dataset.workFilter;
       let visible = 0;
       filters.forEach(f => f.setAttribute('aria-pressed', String(f === filter)));
-      cards.forEach(card => { const show = value === 'all' || card.dataset.workCategory === value; card.hidden = !show; card.classList.toggle('hidden', !show); if (show) visible++; });
+      cards.forEach(card => {
+        const show = value === 'all' || card.dataset.workCategory === value;
+        card.hidden = !show;
+        card.classList.toggle('hidden', !show);
+        if (show) visible++;
+      });
       empty?.classList.toggle('hidden', visible !== 0);
     }));
+
     const dialog = root.querySelector<HTMLDialogElement>('[data-work-dialog]');
     const large = root.querySelector<HTMLImageElement>('[data-work-large]');
     const caption = root.querySelector<HTMLElement>('[data-work-caption]');
+
     root.querySelectorAll<HTMLButtonElement>('[data-work-open]').forEach(button => button.addEventListener('click', () => {
       if (!dialog || !large) return;
       large.src = button.dataset.src || '';
@@ -61,8 +181,13 @@ const items = compact ? workItems.filter(x => x.status === 'مكتمل').slice(0
       if (caption) caption.textContent = button.dataset.title || '';
       dialog.showModal();
     }));
+
     root.querySelector('[data-work-close]')?.addEventListener('click', () => dialog?.close());
-    dialog?.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
-    dialog?.addEventListener('close', () => { if (large) large.removeAttribute('src'); });
+    dialog?.addEventListener('click', e => {
+      if (e.target === dialog) dialog.close();
+    });
+    dialog?.addEventListener('close', () => {
+      if (large) large.removeAttribute('src');
+    });
   });
 </script>

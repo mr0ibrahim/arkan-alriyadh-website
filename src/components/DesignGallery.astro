@@ -1,37 +1,112 @@
 ---
 import { gallery, galleryCategories } from '../data/gallery';
 ---
-<section id="designs" class="border-t border-wood/10 bg-white py-24" aria-labelledby="gallery-title">
-  <div class="mx-auto max-w-7xl px-5">
-    <p class="mb-3 text-center font-bold text-wood">مساحات تلهمك</p>
-    <h2 id="gallery-title" class="mb-4 text-center text-3xl font-extrabold md:text-4xl">أفكار وتصاميم تناسب مساحتك</h2>
-    <p class="mx-auto mb-8 max-w-3xl text-center leading-8 text-charcoal/70">استكشف رؤى بصرية للديكور والخامات والتشطيبات الممكنة. هذه الصور تصوّرات تصميمية استرشادية وليست توثيقًا لأعمال منفذة، ونخصص الاختيارات النهائية بما يتناسب مع المساحة واحتياجاتك.</p>
-    <div class="mb-9 flex flex-wrap justify-center gap-2" role="group" aria-label="تصنيف صور التصاميم">
+
+<section id="designs" class="relative scroll-mt-24 border-t border-wood/10 bg-white py-20 lg:py-28" aria-labelledby="gallery-title">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6">
+    <div class="mx-auto max-w-3xl text-center">
+      <p class="mb-3 inline-flex items-center gap-2 text-sm font-black text-wood">
+        <span class="h-1.5 w-1.5 rounded-full bg-gold"></span>
+        <span>مساحات تلهمك وتصاميم تواكب ذوقك</span>
+      </p>
+      <h2 id="gallery-title" class="mb-4 text-3xl font-black text-charcoal sm:text-4xl md:text-5xl">
+        أفكار وتصاميم تناسب مساحتك
+      </h2>
+      <p class="leading-relaxed text-charcoal/75 sm:text-lg">
+        استكشف رؤى بصرية متناسقة للديكور والخامات والتشطيبات. هذه النماذج استرشادية لإلهامك بمختلف الإمكانات، ونقوم بتخصيص التفاصيل النهائية والمقاسات بما يلائم مساحتك بدقة.
+      </p>
+    </div>
+
+    <!-- Category Filter Buttons -->
+    <div class="my-10 flex flex-wrap justify-center gap-2 sm:gap-3" role="group" aria-label="تصنيف صور التصاميم">
       {galleryCategories.map((category) => (
-        <button type="button" data-filter={category.id} aria-pressed={category.id === 'all' ? 'true' : 'false'} class="gallery-filter rounded-full border border-wood/30 px-4 py-2 text-sm font-bold text-wood transition hover:bg-wood hover:text-white aria-pressed:bg-wood aria-pressed:text-white">{category.label}</button>
+        <button
+          type="button"
+          data-filter={category.id}
+          aria-pressed={category.id === 'all' ? 'true' : 'false'}
+          class="gallery-filter rounded-full border border-wood/25 bg-ivory/50 px-5 py-2.5 text-xs font-black text-charcoal transition-all duration-200 hover:border-wood hover:bg-wood hover:text-white aria-pressed:border-wood aria-pressed:bg-wood aria-pressed:text-white aria-pressed:shadow-md sm:text-sm"
+        >
+          {category.label}
+        </button>
       ))}
     </div>
-    <div id="gallery-items" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+
+    <!-- Gallery Grid -->
+    <div id="gallery-items" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {gallery.map((item) => (
-        <figure data-category={item.category} class="gallery-item overflow-hidden rounded-3xl bg-white shadow-sm">
-          <button type="button" data-image={item.src} data-alt={item.alt} class="gallery-open block w-full cursor-zoom-in text-right" aria-label={`تكبير صورة: ${item.title}`}>
-            <img onerror="this.onerror=null;this.src='/images/painting-reference.svg'" src={item.src} alt={item.alt} loading="lazy" decoding="async" width="1000" height="750" class="aspect-[4/3] w-full object-cover transition duration-300 hover:scale-[1.03]" />
+        <figure
+          data-category={item.category}
+          class="gallery-item group relative overflow-hidden rounded-3xl border border-wood/10 bg-ivory shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-gold/40 hover:shadow-xl"
+        >
+          <button
+            type="button"
+            data-image={item.src}
+            data-alt={item.alt}
+            data-caption={item.title}
+            class="gallery-open relative block aspect-[4/3] w-full cursor-zoom-in overflow-hidden text-right"
+            aria-label={`تكبير صورة: ${item.title}`}
+          >
+            <img
+              onerror="this.onerror=null;this.src='/images/painting-reference.svg'"
+              src={item.src}
+              alt={item.alt}
+              loading="lazy"
+              decoding="async"
+              width="1000"
+              height="750"
+              class="h-full w-full object-cover transition duration-500 group-hover:scale-108"
+            />
+            <!-- Dark gradient overlay on hover -->
+            <div class="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 flex items-end p-5">
+              <span class="inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-1.5 text-xs font-extrabold text-charcoal backdrop-blur-xs">
+                <svg class="h-3.5 w-3.5 text-wood" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                </svg>
+                <span>تكبير واستعراض</span>
+              </span>
+            </div>
           </button>
-          <figcaption class="px-5 py-4 font-bold text-charcoal">{item.title}</figcaption>
+          <figcaption class="flex items-center justify-between p-5">
+            <span class="font-black text-charcoal">{item.title}</span>
+            <span class="text-xs font-bold text-wood">فكرة تصميمية</span>
+          </figcaption>
         </figure>
       ))}
     </div>
-    <p id="gallery-empty" class="mt-8 hidden text-center text-charcoal/70">لا توجد صور في هذا التصنيف حاليًا.</p>
+
+    <p id="gallery-empty" class="mt-8 hidden text-center font-bold text-charcoal/70">
+      لا توجد نماذج في هذا التصنيف حالياً.
+    </p>
   </div>
-  <dialog id="gallery-dialog" aria-label="عرض صورة التصميم" class="m-auto max-h-[90vh] w-[min(94vw,1000px)] rounded-2xl bg-white p-3 text-charcoal shadow-2xl backdrop:bg-black/80">
-    <div class="mb-2 flex justify-end"><button id="gallery-close" type="button" class="rounded-full bg-ivory px-4 py-2 font-bold" aria-label="إغلاق الصورة">إغلاق ×</button></div>
-    <img id="gallery-large" alt="" class="max-h-[75vh] w-full rounded-xl object-contain" />
+
+  <!-- Modern Lightbox Dialog -->
+  <dialog
+    id="gallery-dialog"
+    aria-label="عرض صورة التصميم"
+    class="m-auto max-h-[92vh] w-[min(94vw,1000px)] rounded-3xl border border-white/20 bg-charcoal/95 p-4 text-white shadow-2xl backdrop:bg-black/85 backdrop:backdrop-blur-sm"
+  >
+    <div class="mb-3 flex items-center justify-between px-2">
+      <h3 id="gallery-dialog-title" class="text-sm font-black text-gold sm:text-base"></h3>
+      <button
+        id="gallery-close"
+        type="button"
+        class="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 hover:text-gold"
+        aria-label="إغلاق الصورة"
+      >
+        ✕
+      </button>
+    </div>
+    <div class="overflow-hidden rounded-2xl bg-black/40">
+      <img id="gallery-large" alt="" class="max-h-[75vh] w-full object-contain" />
+    </div>
   </dialog>
 </section>
+
 <script>
   const buttons = document.querySelectorAll<HTMLButtonElement>('.gallery-filter');
   const items = document.querySelectorAll<HTMLElement>('.gallery-item');
   const empty = document.querySelector<HTMLElement>('#gallery-empty');
+
   buttons.forEach(button => button.addEventListener('click', () => {
     const filter = button.dataset.filter;
     buttons.forEach(b => b.setAttribute('aria-pressed', String(b === button)));
@@ -44,14 +119,21 @@ import { gallery, galleryCategories } from '../data/gallery';
     });
     if (empty) empty.classList.toggle('hidden', visible > 0);
   }));
+
   const dialog = document.querySelector<HTMLDialogElement>('#gallery-dialog');
   const large = document.querySelector<HTMLImageElement>('#gallery-large');
+  const dialogTitle = document.querySelector<HTMLElement>('#gallery-dialog-title');
+
   document.querySelectorAll<HTMLButtonElement>('.gallery-open').forEach(button => button.addEventListener('click', () => {
     if (!dialog || !large) return;
     large.src = button.dataset.image ?? '';
     large.alt = button.dataset.alt ?? '';
+    if (dialogTitle) dialogTitle.textContent = button.dataset.caption ?? '';
     dialog.showModal();
   }));
+
   document.querySelector('#gallery-close')?.addEventListener('click', () => dialog?.close());
-  dialog?.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+  dialog?.addEventListener('click', event => {
+    if (event.target === dialog) dialog.close();
+  });
 </script>
