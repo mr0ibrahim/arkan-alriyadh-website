@@ -44,7 +44,7 @@ const logoImage = new URL('/images/arkan-logo.webp', baseUrl).toString();
 const formattedKeywords = Array.isArray(keywords) ? keywords.join(', ') : keywords;
 
 // Robots Directive
-const robotsContent = noindex || (!isProductionIndexing && !envUrl)
+const robotsContent = noindex
   ? 'noindex, nofollow'
   : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
 

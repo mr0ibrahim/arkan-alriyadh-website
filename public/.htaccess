@@ -1,0 +1,20 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Direct access to sitemap.xml and robots.txt
+  RewriteRule ^sitemap\.xml$ sitemap.xml [L]
+  RewriteRule ^robots\.txt$ robots.txt [L]
+</IfModule>
+
+<IfModule mod_mime.c>
+  AddType application/xml .xml
+  AddType text/plain .txt
+  AddType text/html .html
+</IfModule>
+
+# Ensure DirectoryIndex finds index.html first
+DirectoryIndex index.html index.php
+
+# Custom 404
+ErrorDocument 404 /404.html
