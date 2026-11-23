@@ -21,7 +21,7 @@ interface Props {
 
 const {
   title,
-  description = `${site.fullName}؛ خبرة 12 عاماً في تنفيذ وتوريد الشيبورد، الباركيه، نعلات الفايبر، براويز الفوم، والدهانات في الرياض، مع توريد المواد لجميع مناطق المملكة.`,
+  description = `${site.fullName}؛ خبرة 12 عاماً في تركيب نعلات فايبر، براويز فوم (بانوهات)، باركيه، دهانات وشيبورد بالرياض، مع توريد المواد لجميع مناطق المملكة.`,
   keywords = site.keywords,
   image = '/images/hero-main.webp',
   type = 'website',
@@ -102,12 +102,20 @@ const localBusinessSchema = {
       '@type': 'Offer',
       itemOffered: {
         '@type': 'Service',
-        name: s.title,
+        name: s.h1,
         description: s.description,
         url: `${baseUrl}/services/${s.id}/`,
       },
     })),
   },
+  knowsAbout: [
+    'نعلات فايبر',
+    'براويز فوم',
+    'بانوهات جدران',
+    'باركيه',
+    'دهانات داخلية وديكورية',
+    'تكسيات شيبورد',
+  ],
   sameAs: [
     `https://wa.me/${site.whatsappNumber}`,
   ],
@@ -172,8 +180,6 @@ const allSchemas = [
   <meta name="author" content={site.fullName} />
   <meta name="robots" content={robotsContent} />
   <link rel="canonical" href={canonicalUrl} />
-  <meta name="google-site-verification" content="google82443eccb78982cf" />
-  <meta name="google-site-verification" content="82443eccb78982cf" />
 
   <!-- Local SEO & Geo Meta Tags (Riyadh, Saudi Arabia) -->
   <meta name="geo.region" content={site.regionCode} />

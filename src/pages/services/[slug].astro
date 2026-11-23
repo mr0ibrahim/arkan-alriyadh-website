@@ -7,6 +7,7 @@ import Footer from '../../components/Footer.astro';
 import FloatingContact from '../../components/FloatingContact.astro';
 import { services, type Service } from '../../data/services';
 import { gallery, type GalleryImage } from '../../data/gallery';
+import { workItems } from '../../data/ourWork';
 
 export const getStaticPaths = (() => {
   return services.map((service) => ({
@@ -24,62 +25,33 @@ const photos: GalleryImage[] = gallery.filter((image) => image.category === serv
 const cover = photos[0];
 const others = services.filter((item) => item.id !== service.id);
 const whatsapp = contactLink(service.title);
-const description = `${service.description} تصميم وتنفيذ وتركيب احترافي في الرياض، وتوريد المواد لجميع محافظات المملكة. للاستفسار: 0533340982.`;
+const description = service.metaDescription;
+const currentFeatures = service.features;
+const workPhotos = workItems.filter((item) => item.category === service.id);
 
-const serviceFeatures: Record<string, string[]> = {
-  sheeboard: [
-    'تكسيات خشبية عالية الجودة مقاومة للخدش والرطوبة',
-    'إمكانية دمج الإضاءة الليد المخفية ومنافذ التلفزيون بدقة',
-    'تشكيلة واسعة من الألوان الخشبية الطبيعية والعصرية',
-    'تنفيذ وتركيب على أيدي معلمين مختصين بالرياض',
-  ],
-  parquet: [
-    'أرضيات باركيه ألمانية وبلجيكية متينة وفاخرة',
-    'طبقات حماية متطورة ضد الماء والخدوش والاحتكاك',
-    'عزل حراري وصوتي مريح للمساحات السكنية والتجارية',
-    'تركيب هندسي دقيق مع ضبط الفواصل وتناغم النعلات',
-  ],
-  'fiber-skirting': [
-    'نعلات فايبر وبوليمر مقاومة بنسبة 100% للماء والرطوبة',
-    'مقاومة ممتازة للصدمات والحشرات وسهلة التنظيف',
-    'ارتفاعات وتصاميم متنوعة تناسب كافة أنماط الأرضيات',
-    'قص زوايا ليزري بدقة عالية وتشطيب مخفي للمسامير',
-  ],
-  'foam-mouldings': [
-    'براويز وبانوهات فوم هندسية ناعمة وفاخرة',
-    'توزيعات كلاسيكية ونيوكلاسيكية تضيف عمقاً وفخامة للجدران',
-    'جاهزة للدهان بأي لون ومقاومة للتشقق والحرارة',
-    'تركيب متقن مع معالجة كاملة للفواصل بدقة متناهية',
-  ],
-  painting: [
-    'دهانات داخلية فاخرة (جوتن ومصادر معتمدة)',
-    'تأثيرات ديكورية ملمسية (ستوكو، كونكريت، شامواه، سيلك)',
-    'ثبات عالي للألوان وسهولة في الغسيل والتنظيف',
-    'تأسيس ومعالجة متقنة للحوائط قبل التشطيب النهائي',
-  ],
-};
-
-const currentFeatures = service.features || serviceFeatures[service.id] || [
-  'خامات أصلية وضمان على جودة المواد والتركيب',
-  'تنفيذ مخصص وفق أبعاد ومقاسات موقعك بدقة',
-  'توريد شامل لكافة محافظات ومناطق المملكة',
-  'معاينة واستشارة مخصصة لمشروعك',
-];
+const envUrl = import.meta.env.PUBLIC_SITE_URL?.replace(/\/$/, '');
+const baseUrl = envUrl || site.defaultUrl;
+const pageUrl = new URL(`/services/${service.id}/`, baseUrl).toString();
 
 const breadcrumbs = [
-  { name: 'الخدمات', url: '/#services' },
+  { name: 'الخدمات', url: '/services/' },
   { name: service.title, url: `/services/${service.id}/` },
 ];
 
 const serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
-  name: `${service.title} بالرياض`,
+  '@id': `${pageUrl}#service`,
+  name: service.h1,
+  alternateName: service.title,
   description: service.description,
   serviceType: service.serviceType,
   category: service.category,
+  url: pageUrl,
+  image: new URL(cover?.src || '/images/hero-main.webp', baseUrl).toString(),
+  keywords: service.keywords.join(', '),
   provider: {
-    '@id': `${site.defaultUrl}/#business`,
+    '@id': `${baseUrl}/#business`,
   },
   areaServed: [
     {
@@ -105,15 +77,29 @@ const serviceSchema = {
     })),
   },
 };
+
+const faqSchema = service.faqs.length > 0 ? {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${pageUrl}#faq`,
+  mainEntity: service.faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.a,
+    },
+  })),
+} : null;
 ---
 
 <MainLayout
-  title={`${service.title} بالرياض | ${site.fullName}`}
+  title={`${service.seoTitle} | أركان الرياض`}
   description={description}
   keywords={service.keywords}
   image={cover?.src || '/images/hero-main.webp'}
   breadcrumbs={breadcrumbs}
-  extraSchemas={[serviceSchema]}
+  extraSchemas={faqSchema ? [serviceSchema, faqSchema] : [serviceSchema]}
 >
   <Header />
 
@@ -123,7 +109,7 @@ const serviceSchema = {
       <nav aria-label="مسار التصفح" class="mx-auto flex max-w-7xl items-center gap-2 px-4 text-xs font-bold text-charcoal/70 sm:px-6 sm:text-sm">
         <a href="/" class="transition hover:text-wood">الرئيسية</a>
         <span aria-hidden="true" class="text-gold">/</span>
-        <a href="/#services" class="transition hover:text-wood">الخدمات</a>
+        <a href="/services/" class="transition hover:text-wood">الخدمات</a>
         <span aria-hidden="true" class="text-gold">/</span>
         <span aria-current="page" class="font-black text-wood">{service.title}</span>
       </nav>
@@ -141,7 +127,7 @@ const serviceSchema = {
           </div>
 
           <h1 class="mb-4 text-3xl font-black text-charcoal sm:text-4xl md:text-5xl">
-            {service.title}
+            {service.h1}
           </h1>
 
           <p class="mb-5 text-base font-extrabold text-wood sm:text-lg">
@@ -149,7 +135,7 @@ const serviceSchema = {
           </p>
 
           <p class="mb-8 text-base leading-relaxed text-charcoal/80 sm:text-lg sm:leading-loose">
-            {service.description} نحرص في أركان الرياض على مراعاة طبيعة المساحة، وتناسق الخامات والألوان، وضبط استقامة الفواصل، لنمنح المكان لمسة جمالية متكاملة تليق بذوقكم.
+            {service.intro[0]}
           </p>
 
           <!-- Key Highlights / Bullets -->
@@ -193,7 +179,7 @@ const serviceSchema = {
               <img
                 onerror="this.onerror=null;this.src='/images/painting-reference.svg'"
                 src={cover.src}
-                alt={cover.alt}
+                alt={`${service.primaryKeyword}: ${cover.alt}`}
                 width="1100"
                 height="825"
                 decoding="async"
@@ -209,6 +195,85 @@ const serviceSchema = {
         </div>
       </div>
     </section>
+
+    <!-- In-depth Service Content -->
+    <section class="border-t border-wood/10 bg-white py-16 lg:py-20" aria-labelledby="about-service-heading">
+      <div class="mx-auto max-w-4xl px-4 sm:px-6">
+        <h2 id="about-service-heading" class="mb-6 text-2xl font-black text-charcoal sm:text-3xl">
+          {service.primaryKeyword} مع {site.name}
+        </h2>
+        {service.intro.slice(1).map((paragraph) => (
+          <p class="mb-5 text-base leading-loose text-charcoal/80 sm:text-lg">{paragraph}</p>
+        ))}
+        <p class="mb-10 text-base leading-loose text-charcoal/80 sm:text-lg">
+          {service.description} نحرص في أركان الرياض على مراعاة طبيعة المساحة، وتناسق الخامات والألوان، وضبط استقامة الفواصل، لنمنح المكان لمسة جمالية متكاملة تليق بذوقكم.
+        </p>
+
+        {service.sections.map((section) => (
+          <div class="mb-10">
+            <h2 class="mb-4 text-xl font-black text-charcoal sm:text-2xl">{section.heading}</h2>
+            {section.paragraphs?.map((paragraph) => (
+              <p class="mb-4 text-base leading-loose text-charcoal/80 sm:text-lg">{paragraph}</p>
+            ))}
+            {section.items && (
+              <ul class="grid gap-3">
+                {section.items.map((item) => (
+                  <li class="flex items-start gap-2.5 rounded-xl border border-wood/10 bg-ivory/70 p-3.5 text-sm font-bold leading-relaxed text-charcoal sm:text-base">
+                    <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-wood/10 text-xs font-black text-wood" aria-hidden="true">✓</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))}
+
+        <p class="text-base leading-loose text-charcoal/80 sm:text-lg">
+          تكتمل الصورة عادة بدمج أكثر من خدمة؛ تعرّف أيضاً على
+          {others.map((other, index) => (
+            <>
+              {' '}<a href={`/services/${other.id}/`} class="font-black text-wood underline decoration-gold/50 underline-offset-4 hover:decoration-wood">{other.primaryKeyword}</a>{index < others.length - 1 ? '،' : '.'}
+            </>
+          ))}
+        </p>
+      </div>
+    </section>
+
+    {workPhotos.length > 0 && (
+      <section class="border-t border-wood/10 bg-ivory py-16 lg:py-20" aria-labelledby="work-photos-heading">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6">
+          <div class="mx-auto mb-10 max-w-3xl text-center">
+            <h2 id="work-photos-heading" class="text-2xl font-black text-charcoal sm:text-3xl">
+              صور من أعمال {service.title} في الرياض
+            </h2>
+            <p class="mt-4 leading-relaxed text-charcoal/75">
+              لقطات من مشاريع منفذة وأخرى أثناء التنفيذ. شاهد المزيد في <a href="/our-work/" class="font-black text-wood underline underline-offset-4">معرض أعمالنا</a>.
+            </p>
+          </div>
+          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {workPhotos.map((item) => (
+              <figure class="overflow-hidden rounded-3xl border border-wood/10 bg-white shadow-xs">
+                <div class="aspect-[4/3] overflow-hidden">
+                  <img
+                    src={item.src}
+                    alt={`${item.title} - ${service.primaryKeyword} - ${site.name}`}
+                    width={item.width}
+                    height={item.height}
+                    loading="lazy"
+                    decoding="async"
+                    class="h-full w-full object-cover"
+                  />
+                </div>
+                <figcaption class="flex items-center justify-between gap-3 p-4 text-sm font-black text-charcoal">
+                  <span>{item.title}</span>
+                  <span class="shrink-0 rounded-full bg-wood/10 px-3 py-1 text-xs text-wood">{item.status}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
 
     <!-- Visual Samples Section -->
     <section class="border-t border-wood/10 bg-white py-16 lg:py-24" aria-labelledby="samples-title">
@@ -234,7 +299,7 @@ const serviceSchema = {
                   <img
                     onerror="this.onerror=null;this.src='/images/painting-reference.svg'"
                     src={photo.src}
-                    alt={photo.alt}
+                    alt={`${service.primaryKeyword}: ${photo.alt}`}
                     loading="lazy"
                     decoding="async"
                     width="1000"
@@ -279,6 +344,27 @@ const serviceSchema = {
       </div>
     </section>
 
+    {service.faqs.length > 0 && (
+      <section class="border-t border-wood/10 bg-ivory py-16 lg:py-20" aria-labelledby="service-faq-heading">
+        <div class="mx-auto max-w-4xl px-4 sm:px-6">
+          <h2 id="service-faq-heading" class="mb-8 text-center text-2xl font-black text-charcoal sm:text-3xl">
+            أسئلة شائعة عن {service.title}
+          </h2>
+          <div class="flex flex-col gap-4">
+            {service.faqs.map((faq) => (
+              <details class="group rounded-2xl border border-wood/15 bg-white p-5 shadow-xs open:border-wood/40 sm:p-6">
+                <summary class="flex cursor-pointer items-center justify-between gap-4 font-black text-charcoal group-open:text-wood">
+                  <span class="text-base sm:text-lg">{faq.q}</span>
+                  <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-ivory text-wood transition duration-200 group-open:rotate-180" aria-hidden="true">↓</span>
+                </summary>
+                <p class="mt-4 border-t border-wood/10 pt-4 text-sm leading-loose text-charcoal/80 sm:text-base">{faq.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
     <!-- Other Services Grid -->
     <section class="border-t border-wood/10 bg-white py-16 lg:py-20" aria-labelledby="related-heading">
       <div class="mx-auto max-w-7xl px-4 sm:px-6">
@@ -286,7 +372,7 @@ const serviceSchema = {
           <h2 id="related-heading" class="text-2xl font-black text-charcoal sm:text-3xl">
             استكشف خدماتنا الأخرى
           </h2>
-          <a href="/#services" class="text-sm font-black text-wood hover:underline">
+          <a href="/services/" class="text-sm font-black text-wood hover:underline">
             عرض الكل ←
           </a>
         </div>

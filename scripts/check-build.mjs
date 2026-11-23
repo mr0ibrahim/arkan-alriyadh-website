@@ -1,7 +1,7 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 const root = process.cwd();
-const required = ['index.html', '404.html', 'robots.txt', 'services/sheeboard/index.html', 'services/parquet/index.html', 'services/fiber-skirting/index.html', 'services/foam-mouldings/index.html', 'services/painting/index.html'];
+const required = ['index.html', '404.html', 'robots.txt', 'services/index.html', 'services/sheeboard/index.html', 'services/parquet/index.html', 'services/fiber-skirting/index.html', 'services/foam-mouldings/index.html', 'services/painting/index.html'];
 let errors = [];
 for (const file of required) {
   if (!existsSync(join(root, 'dist', file))) errors.push(`ملف مفقود: ${file}`);

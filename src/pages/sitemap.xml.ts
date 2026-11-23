@@ -14,6 +14,11 @@ export const GET: APIRoute = () => {
       changefreq: 'weekly',
     },
     {
+      path: '/services/',
+      priority: '0.9',
+      changefreq: 'monthly',
+    },
+    {
       path: '/our-work/',
       priority: '0.9',
       changefreq: 'weekly',

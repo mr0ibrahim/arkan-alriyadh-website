@@ -1,0 +1,114 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import FloatingContact from '../../components/FloatingContact.astro';
+import { site, contactLink } from '../../data/site';
+import { services } from '../../data/services';
+import { gallery } from '../../data/gallery';
+
+const whatsapp = contactLink('خدمات الديكور والتشطيبات');
+const envUrl = import.meta.env.PUBLIC_SITE_URL?.replace(/\/$/, '');
+const baseUrl = envUrl || site.defaultUrl;
+
+// ترتيب الخدمات: الأولوية للكلمات الأهم في البحث
+const order = ['fiber-skirting', 'foam-mouldings', 'parquet', 'painting', 'sheeboard'];
+const sorted = [...services].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+
+const breadcrumbs = [{ name: 'الخدمات', url: '/services/' }];
+
+const listSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: `خدمات ${site.fullName} في الرياض`,
+  itemListElement: sorted.map((service, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: service.h1,
+    url: new URL(`/services/${service.id}/`, baseUrl).toString(),
+  })),
+};
+---
+
+<MainLayout
+  title="خدمات الديكور بالرياض: نعلات فايبر، بانوهات، باركيه ودهانات"
+  description="خدمات أركان الرياض للديكور: نعلات فايبر، براويز فوم وبانوهات جدران، توريد وتركيب باركيه، دهانات داخلية وديكورية، وتكسيات شيبورد بالرياض مع توريد للمملكة."
+  keywords={services.flatMap((service) => service.keywords.slice(0, 3))}
+  breadcrumbs={breadcrumbs}
+  extraSchemas={[listSchema]}
+>
+  <Header />
+
+  <main>
+    <section class="relative overflow-hidden border-b border-wood/10 bg-ivory py-16 sm:py-20">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6">
+        <nav class="mb-6 flex items-center gap-2 text-xs font-bold text-wood sm:text-sm" aria-label="مسار التصفح">
+          <a href="/" class="transition hover:underline hover:text-charcoal">الرئيسية</a>
+          <span aria-hidden="true" class="text-gold">/</span>
+          <span class="text-charcoal" aria-current="page">الخدمات</span>
+        </nav>
+        <h1 class="text-3xl font-black text-charcoal sm:text-4xl md:text-5xl">
+          خدمات الديكور والتشطيبات في الرياض
+        </h1>
+        <p class="mt-4 max-w-3xl text-base leading-relaxed text-charcoal/75 sm:text-lg sm:leading-loose">
+          من نعلات الفايبر المقاومة للماء وبراويز الفوم (البانوهات) إلى أرضيات الباركيه والدهانات الداخلية والديكورية؛ ننفذ أعمال التشطيب والتركيب داخل جميع أحياء الرياض، ونورّد الخامات لجميع مناطق المملكة. اختر الخدمة لتعرف تفاصيلها وخطوات التنفيذ والأسئلة الشائعة.
+        </p>
+      </div>
+    </section>
+
+    <section class="bg-white py-16 lg:py-20" aria-label="قائمة الخدمات">
+      <div class="mx-auto grid max-w-7xl gap-8 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-3">
+        {sorted.map((service) => {
+          const preview = gallery.find((image) => image.category === service.id);
+          return (
+            <article class="group flex flex-col overflow-hidden rounded-3xl border border-wood/10 bg-ivory shadow-xs transition hover:-translate-y-1 hover:border-gold/40 hover:shadow-lg">
+              {preview && (
+                <div class="aspect-[4/3] overflow-hidden">
+                  <img
+                    src={preview.src}
+                    alt={`${service.primaryKeyword}: ${preview.alt}`}
+                    width="1000"
+                    height="750"
+                    loading="lazy"
+                    decoding="async"
+                    class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                  />
+                </div>
+              )}
+              <div class="flex flex-1 flex-col p-6">
+                <h2 class="mb-3 text-xl font-black text-charcoal">
+                  <a href={`/services/${service.id}/`} class="hover:text-wood">{service.h1}</a>
+                </h2>
+                <p class="mb-5 flex-1 text-sm leading-relaxed text-charcoal/75">{service.description}</p>
+                <a href={`/services/${service.id}/`} class="inline-flex items-center gap-1 text-sm font-black text-wood hover:underline">
+                  <span>تفاصيل {service.title}</span>
+                  <span aria-hidden="true">←</span>
+                </a>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+
+    <section class="border-t border-wood/10 bg-ivory py-16">
+      <div class="mx-auto max-w-4xl px-4 text-center sm:px-6">
+        <h2 class="mb-4 text-2xl font-black text-charcoal sm:text-3xl">اطلب معاينة في الرياض</h2>
+        <p class="text-base leading-relaxed text-charcoal/80 sm:text-lg">
+          أرسل لنا صور المكان ومقاساته عبر واتساب أو اطلب زيارة معاينة، ونقترح عليك أنسب الخامات ونقدم عرض السعر.
+        </p>
+        <a
+          href={whatsapp}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-8 inline-flex items-center gap-2.5 rounded-full bg-[#1A7A4C] px-8 py-4 font-black text-white shadow-md transition duration-200 hover:bg-[#14603B]"
+        >
+          تواصل عبر واتساب
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+  <FloatingContact />
+</MainLayout>

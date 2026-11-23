@@ -3,6 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 
 const paths = [
   '/',
+  '/services/',
   '/services/sheeboard/',
   '/services/parquet/',
   '/services/fiber-skirting/',
